@@ -27,6 +27,10 @@ export default function ProfilePage() {
     );
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
   const [isPaymentExpand, setIsPaymentExpanded] = useState(false);
+  const [isEcommerceExpanded, setIsEcommerceExpanded] = useState(false);
+  const [isPersonalExpanded, setIspersonalExpandeds] = useState(false);
+
+
 
  useEffect(() => {
    if (profileId) {
@@ -68,8 +72,17 @@ export default function ProfilePage() {
     .filter(([_, value]) => value !== null)
     .slice(0, 20)
 
+    const activePersonal = Object.entries(profileData.additionalInfo)
+      .filter(([key, value]) => key !== "personal" && value !== null)
+      .slice(0, 20);
+
+
     const activePaymentLinks=Object.entries(profileData.paymentInfo).filter(([_, value]) => value !== null)
     .slice(0, 7)
+
+    const activeEcommerceLinks = Object.entries(profileData.ecommerceInfo)
+      .filter(([_, value]) => value !== null)
+      .slice(0, 7);
 
     const getIconClass = (platform: string): string => {
       const icon = allIcons.find((item) => item.name === platform);
@@ -84,8 +97,7 @@ export default function ProfilePage() {
       {/* <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-md border-none shadow-xl rounded-3xl overflow-hidden"> */}
       <Card className="w-full max-w-md mx-auto bg-[#0c3354] backdrop-blur-md border-none shadow-xl rounded-3xl overflow-hidden">
         <CardContent className="p-0">
-          <div className="relative h-48 flex item-center justify-center">
-            {/* Render background image if available */}
+          <div className="relative h-48 flex items-center justify-center">
             {bgImage ? (
               <img
                 src={bgImage.src}
@@ -99,6 +111,14 @@ export default function ProfilePage() {
                 loading="eager"
               />
             )}
+            {/* Icon at top-left corner */}
+            <div className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-md">
+              <img
+                src="/parax.jpg"
+                alt="Paxar Logo"
+                className="w-16 h-16 rounded-full"
+              />
+            </div>
           </div>
 
           <div className="relative px-6 pb-6">
@@ -201,6 +221,80 @@ export default function ProfilePage() {
               </div>
             </motion.div>
 
+            <motion.div
+              initial={false}
+              animate={{ height: isEcommerceExpanded ? "auto" : 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <div className="mt-6 grid grid-cols-3 gap-4">
+                {activeEcommerceLinks.map(([platform, url]) => {
+                  const fixedUrl =
+                    url?.startsWith("http://") || url?.startsWith("https://")
+                      ? url
+                      : `https://${url}`; // Add https:// if missing
+
+                  return (
+                    <a
+                      key={platform}
+                      href={fixedUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center text-white hover:text-indigo-200 transition-colors"
+                    >
+                      <div className="w-12 h-12 border-2 border-current rounded-full flex items-center justify-center mb-2">
+                        <i
+                          className={`text-xl ${getIconClass(platform)}`}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <span className="text-xs capitalize">{platform}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={false}
+              animate={{ height: isPersonalExpanded ? "auto" : 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <div className="mt-6 grid grid-cols-3 gap-4">
+                {activePersonal.map(([platform, url]) => {
+                  const fixedUrl =
+                    url?.startsWith("http://") || url?.startsWith("https://")
+                      ? url
+                      : `https://${url}`; // Add https:// if missing
+
+                  return (
+                    <a
+                      key={platform}
+                      href={fixedUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center text-white hover:text-indigo-200 transition-colors"
+                    >
+                      <div className="w-12 h-12 border-2 border-current rounded-full flex items-center justify-center mb-2">
+                        <i
+                          className={`text-xl ${
+                            platform === "customLanding"
+                              ? "fa fa-globe"
+                              : getIconClass(platform)
+                          }`}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <span className="text-xs capitalize">
+                        {platform === "customLanding" ? "Portfolio" : platform}
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            </motion.div>
+
             <div className="mt-6 space-y-3">
               <Button
                 variant="outline"
@@ -220,15 +314,59 @@ export default function ProfilePage() {
                 className="w-full text-white border-white/20 hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:scale-105"
                 asChild
               >
-                <Link to={`tel:${profileData.contactInfo.phoneNumber}`}>
+                <Link
+                  to={`https://wa.me/${profileData.contactInfo.phoneNumber}`}
+                >
                   <span className="flex items-center w-full">
-                    <Phone className="mr-2 h-4 w-4" />
+                    <i className="mr-2 fa-brands fa-whatsapp"></i>
+
                     {profileData.contactInfo.phoneNumber}
                     <ChevronRight className="ml-auto h-4 w-4" />
                   </span>
                 </Link>
               </Button>
-              {profileData.contactInfo.calender && (
+
+              {profileData.contactInfo.telegram && (
+                <Button
+                  variant="outline"
+                  className="w-full text-white border-white/20 hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:scale-105"
+                  asChild
+                >
+                  <Link
+                    to={`${
+                      profileData.contactInfo.telegram.startsWith(
+                        "https://t.me/"
+                      )
+                        ? profileData.contactInfo.telegram
+                        : "https://t.me/" + profileData.contactInfo.telegram
+                    }`}
+                    target="_blank"
+                  >
+                    <span className="flex items-center w-full">
+                      <i className="mr-2 fa-brands fa-telegram"></i> Chat on
+                      Telegram
+                      <ChevronRight className="ml-auto h-4 w-4" />
+                    </span>
+                  </Link>
+                </Button>
+              )}
+
+              {profileData.contactInfo.skype && (
+                <Button
+                  variant="outline"
+                  className="w-full text-white border-white/20 hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:scale-105"
+                  asChild
+                >
+                  <Link to={profileData.contactInfo.skype}>
+                    <span className="flex items-center w-full">
+                      <i className="mr-2 fa-brands fa-skype"></i>
+                      Skype
+                      <ChevronRight className="ml-auto h-4 w-4" />
+                    </span>
+                  </Link>
+                </Button>
+              )}
+              {profileData.contactInfo.zoom && (
                 <Button
                   variant="outline"
                   className="w-full text-white border-white/20 hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:scale-105"
@@ -238,6 +376,38 @@ export default function ProfilePage() {
                     <span className="flex items-center w-full">
                       <Calendar className="mr-2 h-4 w-4" />
                       Schedule a Zoom meeting
+                      <ChevronRight className="ml-auto h-4 w-4" />
+                    </span>
+                  </Link>
+                </Button>
+              )}
+
+              {profileData.contactInfo.googleMeet && (
+                <Button
+                  variant="outline"
+                  className="w-full text-white border-white/20 hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:scale-105"
+                  asChild
+                >
+                  <Link to={profileData.contactInfo.googleMeet}>
+                    <span className="flex items-center w-full">
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Google Meet
+                      <ChevronRight className="ml-auto h-4 w-4" />
+                    </span>
+                  </Link>
+                </Button>
+              )}
+
+              {profileData.contactInfo.calender && (
+                <Button
+                  variant="outline"
+                  className="w-full text-white border-white/20 hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:scale-105"
+                  asChild
+                >
+                  <Link to={profileData.contactInfo.calender}>
+                    <span className="flex items-center w-full">
+                      <Calendar className="mr-2 h-4 w-4" />
+                      Calendar
                       <ChevronRight className="ml-auto h-4 w-4" />
                     </span>
                   </Link>
@@ -254,7 +424,7 @@ export default function ProfilePage() {
               </div>
             )}
 
-            <div className="mt-6 text-center">
+            <div className="mt-3 text-center">
               <Button
                 variant="ghost"
                 onClick={() => setIsExpanded(!isExpanded)}
@@ -267,7 +437,29 @@ export default function ProfilePage() {
                 onClick={() => setIsPaymentExpanded(!isPaymentExpand)}
                 className="text-white hover:text-indigo-200 transition-colors"
               >
-                {isExpanded ? "Hide Payment Info" : "Show Payment Info"}
+                {isPaymentExpand ? "Hide Payment Info" : "Show Payment Info"}
+              </Button>
+            </div>
+
+            <div className="mt-3 text-center">
+              <Button
+                variant="ghost"
+                onClick={() => setIsEcommerceExpanded(!isEcommerceExpanded)}
+                className="text-white hover:text-indigo-200 transition-colors"
+              >
+                {isEcommerceExpanded
+                  ? "Show Ecommerce Info"
+                  : "Hide Ecommerce Info"}
+              </Button>
+
+              <Button
+                variant="ghost"
+                onClick={() => setIspersonalExpandeds(!isPersonalExpanded)}
+                className="text-white hover:text-indigo-200 transition-colors"
+              >
+                {isPersonalExpanded
+                  ? "Show Personal Info"
+                  : "Hide Personal Info"}
               </Button>
             </div>
           </div>
