@@ -1,12 +1,13 @@
 // firebase.ts
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+const { VITE_API_KEY,VITE_PROJECT_ID,VITE_MESSAGING_SENDER_ID,VITE_APP_ID } = import.meta.env;
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBRy93wMPrqo9GsRqElqgdGk20Y721EMWw",
-  projectId: "nfcapp-def75",
-  messagingSenderId: "928920975892",
-  appId: "1:928920975892:android:b779abf7ee772778d78501",
+  apiKey:VITE_API_KEY ,
+  projectId: VITE_PROJECT_ID,
+  messagingSenderId: VITE_MESSAGING_SENDER_ID,
+  appId: VITE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
