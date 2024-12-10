@@ -38,19 +38,20 @@ export default function ProfilePage() {
      getDoc(profileRef)
        .then((docSnapshot) => {
          if (docSnapshot.exists()) {
+          console.log("doc",docSnapshot.data())
            const data = docSnapshot.data() as UserProfile;
            setProfileData(data);
 
            // Convert Base64 to Image once profileData is set
-           if (data.personalInfo.background_image) {
+           if (data.additionalInfo.personal.background_image) {
              const bgImageElement = base64ToImage(
-               data.personalInfo.background_image
+              data.additionalInfo.personal.background_image
              );
              setBgImage(bgImageElement);
            }
-           if (data.personalInfo.profile_image) {
+           if (data.additionalInfo.personal.profile_image) {
              const profileImageElement = base64ToImage(
-               data.personalInfo.profile_image
+              data.additionalInfo.personal.profile_image
              );
              setProfileImage(profileImageElement);
            }
@@ -143,13 +144,13 @@ export default function ProfilePage() {
 
             <div className="mt-4 text-center space-y-2">
               <h2 className="text-2xl font-bold">
-                {profileData.personalInfo.fullname}
+                {profileData.additionalInfo.personal.fullname}
               </h2>
               <p className="text-lg font-medium text-indigo-200">
-                {profileData.personalInfo.designation}
+                {profileData.additionalInfo.personal.designation}
               </p>
               <p className="text-sm text-gray-300">
-                {profileData.personalInfo.description}
+                {profileData.additionalInfo.personal.description}
               </p>
             </div>
 

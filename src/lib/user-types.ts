@@ -67,6 +67,8 @@ interface PersonalInfo {
       fullname: string;
       designation: string;
       description: string | null;
+      profile_image: string | null;
+      background_image: string | null;
     };
     customLanding: string | null;
     blog: string | null;

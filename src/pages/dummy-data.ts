@@ -71,6 +71,11 @@ export const dummyData: UserProfile = {
       designation: "Software Developer",
       description:
         "Passionate about coding and solving real-world problems with technology.",
+        profile_image:
+        "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png",
+      // profile_image:null,
+      background_image:
+        "https://png.pngtree.com/thumb_back/fh260/background/20230408/pngtree-rainbow-curves-abstract-colorful-background-image_2164067.jpg",
     },
     customLanding: "https://www.fahaddev.com",
     blog: "https://www.fahaddev.blog",
