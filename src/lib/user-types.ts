@@ -1,88 +1,82 @@
+interface EcommerceInfo {
+  amazonStore: string | null;
+  ebay: string | null;
+  shopee: string | null;
+  shopifyStore: string | null;
+  lazada: string | null;
+  etsy: string | null;
+}
+
+interface AdditionalInfo {
+  fileSharing: string | null;
+  blog: string;
+  personal: PersonalInfo;
+  resume: string | null;
+  customLanding: string | null;
+  event: string;
+}
+
 interface PersonalInfo {
-    fullname: string;
-    designation: string;
-    profile_image: string | null;
-    background_image: string | null;
-    description: string | null;
-  }
-  
-  interface ContactInfo {
-    phoneNumber: string;
-    email: string;
-    whatsapp: string;
-    telegram: string;
-    physicalAddress: string;
-    lat: number | null;
-    long: number | null;
-    skype: string;
-    zoom: string;
-    googleMeet: string;
-    calender: string | null;
-  }
-  
-  interface SocialMediaInfo {
-    facebook: string | null;
-    instagram: string | null;
-    twitter: string | null;
-    linkedin: string | null;
-    tiktok: string | null;
-    youtube: string | null;
-    pinterest: string | null;
-    snapchat: string | null;
-    github: string | null;
-    behance: string | null;
-    dribble: string | null;
-    medium: string | null;
-    substack: string | null;
-    fiver: string | null;
-    upwork: string | null;
-    freelancer: string | null;
-    spotify: string | null;
-    soundCloud: string | null;
-    appleMusic: string | null;
-    amazon: string | null;
-  }
-  
-  interface EcommerceInfo {
-    amazonStore: string | null;
-    ebay: string | null;
-    etsy: string | null;
-    shopee: string | null;
-    lazada: string | null;
-    shopifyStore: string | null;
-  }
-  
-  interface PaymentInfo {
-    paypal: string | null;
-    venmo: string | null;
-    gCash: string | null;
-    payoneer: string | null;
-    stripe: string | null;
-    wise: string | null;
-    cryptocurrency: string | null;
-  }
-  
-  interface AdditionalInfo {
-    personal: {
-      fullname: string;
-      designation: string;
-      description: string | null;
-      profile_image: string | null;
-      background_image: string | null;
-    };
-    customLanding: string | null;
-    blog: string | null;
-    event: string | null;
-    fileSharing: string | null;
-    qrCode: string | null;
-  }
-  
-  export interface UserProfile {
-    personalInfo: PersonalInfo;
-    contactInfo: ContactInfo;
-    socialMediaInfo: SocialMediaInfo;
-    ecommerceInfo: EcommerceInfo;
-    paymentInfo: PaymentInfo;
-    additionalInfo: AdditionalInfo;
-  }
-  
+  button_style: string;
+  profile_image: string;
+  font_style: string;
+  font_size: number;
+  description: string | null;
+  background_image: string;
+  designation: string;
+  fullname: string;
+}
+
+interface PaymentInfo {
+  gCash: string | null;
+  payoneer: string | null;
+  paypal: string | null;
+  venmo: string | null;
+  wise: string | null;
+  cryptocurrency: string | null;
+  stripe: string | null;
+}
+
+interface ContactInfo {
+  skype: string;
+  zoom: string;
+  whatsapp: string;
+  calender: string | null;
+  googleMeet: string | null;
+  phoneNumber: string;
+  maplink: string;
+  email: string;
+  physicalAddress: string;
+  telegram: string;
+}
+
+interface SocialMediaInfo {
+  pinterest: string | null;
+  youtube: string | null;
+  snapchat: string | null;
+  twitter: string | null;
+  upwork: string | null;
+  appleMusic: string | null;
+  amazon: string | null;
+  facebook: string | null;
+  substack: string | null;
+  instagram: string | null;
+  spotify: string | null;
+  soundCloud: string | null;
+  medium: string | null;
+  dribble: string | null;
+  fiver: string | null;
+  github: string | null;
+  linkedin: string | null;
+  behance: string | null;
+  tiktok: string | null;
+  freelancer: string | null;
+}
+
+export interface UserProfile {
+  ecommerceInfo: EcommerceInfo;
+  additionalInfo: AdditionalInfo;
+  paymentInfo: PaymentInfo;
+  contactInfo: ContactInfo;
+  socialMediaInfo: SocialMediaInfo;
+}

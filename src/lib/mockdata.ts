@@ -1,76 +1,73 @@
 import { UserProfile } from "./user-types";
 
 export const dummyData: UserProfile = {
-    personalInfo: {
-      fullname: "Fahad",
-      designation: "Software Developer",
-      profile_image: "https://www.example.com/profile.jpg",
-      background_image: "https://www.example.com/background.jpg",
-      description: "Experienced software developer specializing in full-stack development."
+  ecommerceInfo: {
+    amazonStore: "https://www.amazon.com/store/xyz",
+    ebay: "https://www.ebay.com/xyz-store",
+    shopee: "https://shopee.com/xyz-store",
+    shopifyStore: "https://shopify.com/xyz-shop",
+    lazada: "https://www.lazada.com/xyz-store",
+    etsy: "https://www.etsy.com/shop/xyz-store",
+  },
+  additionalInfo: {
+    fileSharing: "https://www.fileshare.com/xyz-link",
+    blog: "https://example-blog.vercel.app/profile/12345",
+    personal: {
+      button_style: "Outlined",
+      profile_image: "https://example.com/profile.jpg",
+      font_style: "Bold",
+      font_size: 18,
+      description:
+        "This is a sample description about me. I am passionate about web development and UI/UX design.",
+      background_image: "https://example.com/background.jpg",
+      designation: "Developer",
+      fullname: "John Doe",
     },
-    contactInfo: {
-      phoneNumber: "+923352437245",
-      email: "fahad@example.com",
-      whatsapp: "+923352432745",
-      telegram: "https://www.telegram.com/fahad",
-      physicalAddress: "123 ABC Road, XYZ City, Pakistan",
-      lat: 31.582045,
-      long: 74.329376,
-      skype: "fahad_skype",
-      zoom: "https://www.zoom.com/fahad-meeting",
-      googleMeet: "https://meet.google.com/fahad-xyz",
-      calender: "https://www.google.com/calendar/123"
-    },
-    socialMediaInfo: {
-      facebook: "https://www.facebook.com/fahad",
-      instagram: "https://www.instagram.com/fahad_dev",
-      twitter: "https://www.twitter.com/fahad_dev",
-      linkedin: "https://www.linkedin.com/in/fahad",
-      tiktok: null,
-      youtube: "https://www.youtube.com/fahaddev",
-      pinterest: null,
-      snapchat: null,
-      github: "https://github.com/fahaddev",
-      behance: null,
-      dribble: null,
-      medium: null,
-      substack: null,
-      fiver: null,
-      upwork: null,
-      freelancer: "https://www.freelancer.com/fahaddev",
-      spotify: null,
-      soundCloud: null,
-      appleMusic: null,
-      amazon: null
-    },
-    ecommerceInfo: {
-      amazonStore: null,
-      ebay: "https://www.ebay.com/fahad-shop",
-      etsy: null,
-      shopee: "https://shopee.com/fahad-shop",
-      lazada: null,
-      shopifyStore: null
-    },
-    paymentInfo: {
-      paypal: "https://www.paypal.com/fahaddev",
-      venmo: null,
-      gCash: null,
-      payoneer: null,
-      stripe: null,
-      wise: null,
-      cryptocurrency: "https://www.coinbase.com/fahaddev"
-    },
-    additionalInfo: {
-      personal: {
-        fullname: "Fahad",
-        designation: "Software Developer",
-        description: "Passionate about coding and solving real-world problems with technology."
-      },
-      customLanding: "https://www.fahaddev.com",
-      blog: "https://www.fahaddev.blog",
-      event: null,
-      fileSharing: "https://www.dropbox.com/fahad-files",
-      qrCode: "https://www.qr-code-generator.com/fahad"
-    }
-  };
-  
+    resume: "https://example.com/resume.pdf",
+    customLanding: "https://example.com/custom-landing-page",
+    event: "https://maps.app.goo.gl/xyzEventLocation",
+  },
+  paymentInfo: {
+    gCash: "https://www.gcash.com/xyz-profile",
+    payoneer: "https://www.payoneer.com/xyz-profile",
+    paypal: "https://www.paypal.com/xyz-profile",
+    venmo: "https://www.venmo.com/xyz-profile",
+    wise: "https://www.wise.com/xyz-profile",
+    cryptocurrency: "https://www.cryptocurrency.com/xyz-profile",
+    stripe: "https://www.stripe.com/xyz-profile",
+  },
+  contactInfo: {
+    skype: "username_123",
+    zoom: "https://zoom.us/xyz-zoom-link",
+    whatsapp: "+1234567890",
+    calender: "https://calendar.google.com/calendar/xyz-calendar",
+    googleMeet: "https://meet.google.com/xyz-meet-link",
+    phoneNumber: "+9876543210",
+    maplink: "https://maps.app.goo.gl/xyzAddress",
+    email: "johndoe@example.com",
+    physicalAddress: "123 Example St, City, Country",
+    telegram: "https://t.me/xyzTelegram",
+  },
+  socialMediaInfo: {
+    pinterest: "https://www.pinterest.com/xyzProfile",
+    youtube: "https://www.youtube.com/c/xyzChannel",
+    snapchat: "https://www.snapchat.com/add/xyzProfile",
+    twitter: "https://twitter.com/xyzProfile",
+    upwork: "https://www.upwork.com/freelancers/~xyzProfile",
+    appleMusic: "https://music.apple.com/xyzProfile",
+    amazon: "https://www.amazon.com/author/xyzAuthor",
+    facebook: "https://www.facebook.com/xyzProfile",
+    substack: "https://xyzProfile.substack.com",
+    instagram: "https://www.instagram.com/xyzProfile",
+    spotify: "https://open.spotify.com/xyzProfile",
+    soundCloud: "https://soundcloud.com/xyzProfile",
+    medium: "https://medium.com/@xyzProfile",
+    dribble: "https://dribbble.com/xyzProfile",
+    fiver: "https://www.fiverr.com/xyzProfile",
+    github: "https://github.com/xyzProfile",
+    linkedin: "https://www.linkedin.com/in/xyzProfile",
+    behance: "https://www.behance.net/xyzProfile",
+    tiktok: "https://www.tiktok.com/@xyzProfile",
+    freelancer: "https://www.freelancer.com/u/xyzProfile",
+  },
+};
