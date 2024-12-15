@@ -130,7 +130,7 @@ export default function ProfilePage() {
               ? profileImage.src
               : dummyData.additionalInfo.personal.background_image
           })`,
-          backgroundSize: "cover", // Ensures the image fits within the card without stretching
+          backgroundSize: "100% 100%", // Stretch image to fill the container (like object-fill)
           backgroundPosition: "center", // Centers the image
           backgroundAttachment: "fixed",
           backgroundRepeat: "no-repeat", // Ensures no repeat of background image
@@ -143,7 +143,7 @@ export default function ProfilePage() {
         <div className="relative flex justify-center items-center rounded-full w-60 h-60 mx-auto mb-4"></div>
 
         {/* Name and Description */}
-        <div className="space-y-2  h-96 ">
+        <div className="space-y-2  h-[26rem] ">
           <div className="backdrop-blur-sm bg-white/30 rounded-3xl">
             <motion.div
               initial={false}
@@ -270,22 +270,17 @@ export default function ProfilePage() {
             </p>
           </div>
           <div className="overflow-x-auto h-52 scrollbar-hide">
-            <div
-              style={{ height: "200px" }} // Set a fixed height here
-              className={`overflow-y-auto scrollbar-hide ${
-                activePaymentLinks.length > 0 ? "" : "hidden"
-              } `}
-            >
-              {activePaymentLinks.length > 0 && (
+            <div className={`${activePersonal.length > 0 ? "" : "hidden"} `}>
+              {activePersonal.length > 0 && (
                 <h1
                   className="text-black 
               text-xl font-medium "
                 >
-                  Payment Info
+                  Personal Info
                 </h1>
               )}
               <div className="grid grid-cols-1 gap-2 p-1">
-                {activePaymentLinks.map(([platform, url]) => {
+                {activePersonal.map(([platform, url]) => {
                   const fixedUrl =
                     url?.startsWith("http://") || url?.startsWith("https://")
                       ? url
@@ -350,21 +345,18 @@ export default function ProfilePage() {
               </div>
             </div>
             <div
-              style={{ height: "150px" }} // Set a fixed height here
-              className={`overflow-y-auto scrollbar-hide ${
-                activePersonal.length > 0 ? "" : "hidden"
-              } `}
+              className={` ${activePaymentLinks.length > 0 ? "" : "hidden"} `}
             >
-              {activePersonal.length > 0 && (
+              {activePaymentLinks.length > 0 && (
                 <h1
                   className="text-black 
               text-xl font-medium "
                 >
-                  Personal Info
+                  Payment Info
                 </h1>
               )}
               <div className="grid grid-cols-1 gap-2 p-1">
-                {activePersonal.map(([platform, url]) => {
+                {activePaymentLinks.map(([platform, url]) => {
                   const fixedUrl =
                     url?.startsWith("http://") || url?.startsWith("https://")
                       ? url
