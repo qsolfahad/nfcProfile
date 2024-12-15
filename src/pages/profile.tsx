@@ -143,7 +143,7 @@ export default function ProfilePage() {
         <div className="relative flex justify-center items-center rounded-full w-60 h-60 mx-auto mb-4"></div>
 
         {/* Name and Description */}
-        <div className="space-y-2">
+        <div className="space-y-2  h-96 ">
           <div className="backdrop-blur-sm bg-white/30 rounded-3xl">
             <motion.div
               initial={false}
@@ -193,247 +193,10 @@ export default function ProfilePage() {
             </motion.div>
           </div>
           <div
-            style={{ height: "200px" }} // Set a fixed height here
-            className={`overflow-y-auto scrollbar-hide ${
-              activePaymentLinks.length > 0 ? "" : "hidden"
-            } `}
-          >
-            {activePaymentLinks.length > 0 && (
-              <h1
-                className="text-black 
-              text-xl font-medium "
-              >
-                Payment Info
-              </h1>
-            )}
-            <div className="grid grid-cols-1 gap-2 p-1">
-              {activePaymentLinks.map(([platform, url]) => {
-                const fixedUrl =
-                  url?.startsWith("http://") || url?.startsWith("https://")
-                    ? url
-                    : `https://${url}`; // Add https:// if missing
-
-                const buttonStyle =
-                  profileData.additionalInfo.personal.button_style;
-                const fontSize = profileData.additionalInfo.personal.font_size;
-                const fontStyle =
-                  profileData.additionalInfo.personal.font_style;
-
-                return (
-                  <>
-                    <div>
-                      <div
-                        onClick={() => {
-                          window.open(fixedUrl, "_blank");
-                        }}
-                        className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                buttonStyle === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? " rounded-none" : ""}
-              ${
-                buttonStyle === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? "text-white" : ""}
-            `}
-                      >
-                        <i
-                          className={`text-3xl text-black ${getIconClass(
-                            platform
-                          )}`}
-                          aria-hidden="true"
-                        />
-                        <span
-                          className={`text-xs text-black capitalize
-                        
-                        `}
-                          style={{
-                            fontSize: `${fontSize}px`,
-                            fontStyle:
-                              fontStyle === "Italic" ? "italic" : "normal", // Apply italic if the fontStyle is "Italic"
-                            fontWeight:
-                              fontStyle === "Bold" ? "bold" : "normal", // Apply bold if the fontWeight is "Bold"
-                          }}
-                        >
-                          {platform}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
-
-          <div
-            style={{ height: "200px" }} // Set a fixed height here
-            className={`overflow-y-auto scrollbar-hide ${
-              activeEcommerceLinks.length > 0 ? "" : "hidden"
-            } `}
-          >
-            {activeEcommerceLinks.length > 0 && (
-              <h1
-                className="text-black 
-              text-xl font-medium "
-              >
-                Ecommerce Info
-              </h1>
-            )}
-            <div className="grid grid-cols-1 gap-2 p-1">
-              {activeEcommerceLinks.map(([platform, url]) => {
-                const fixedUrl =
-                  url?.startsWith("http://") || url?.startsWith("https://")
-                    ? url
-                    : `https://${url}`; // Add https:// if missing
-
-                const buttonStyle =
-                  profileData.additionalInfo.personal.button_style;
-                const fontSize = profileData.additionalInfo.personal.font_size;
-                const fontStyle =
-                  profileData.additionalInfo.personal.font_style;
-
-                return (
-                  <>
-                    <div>
-                      <div
-                        onClick={() => {
-                          window.open(fixedUrl, "_blank");
-                        }}
-                        className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                buttonStyle === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? " rounded-none" : ""}
-              ${
-                buttonStyle === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? "text-white" : ""}
-            `}
-                      >
-                        <i
-                          className={`text-3xl text-black ${getIconClass(
-                            platform
-                          )}`}
-                          aria-hidden="true"
-                        />
-                        <span
-                          className={`text-xs text-black capitalize
-                        
-                        `}
-                          style={{
-                            fontSize: `${fontSize}px`,
-                            fontStyle:
-                              fontStyle === "Italic" ? "italic" : "normal", // Apply italic if the fontStyle is "Italic"
-                            fontWeight:
-                              fontStyle === "Bold" ? "bold" : "normal", // Apply bold if the fontWeight is "Bold"
-                          }}
-                        >
-                          {platform}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
-
-          <div
-            style={{ height: "150px" }} // Set a fixed height here
-            className={`overflow-y-auto scrollbar-hide ${
-              activePersonal.length > 0 ? "" : "hidden"
-            } `}
-          >
-            {activePersonal.length > 0 && (
-              <h1
-                className="text-black 
-              text-xl font-medium "
-              >
-                Personal Info
-              </h1>
-            )}
-            <div className="grid grid-cols-1 gap-2 p-1">
-              {activePersonal.map(([platform, url]) => {
-                const fixedUrl =
-                  url?.startsWith("http://") || url?.startsWith("https://")
-                    ? url
-                    : `https://${url}`; // Add https:// if missing
-
-                const buttonStyle =
-                  profileData.additionalInfo.personal.button_style;
-                const fontSize = profileData.additionalInfo.personal.font_size;
-                const fontStyle =
-                  profileData.additionalInfo.personal.font_style;
-
-                return (
-                  <>
-                    <div>
-                      <div
-                        onClick={() => {
-                          window.open(fixedUrl, "_blank");
-                        }}
-                        className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                buttonStyle === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? " rounded-none" : ""}
-              ${
-                buttonStyle === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? "text-white" : ""}
-            `}
-                      >
-                        <i
-                          className={`text-3xl text-black ${getIconClass(
-                            platform
-                          )}`}
-                          aria-hidden="true"
-                        />
-                        <span
-                          className={`text-xs text-black capitalize
-                        
-                        `}
-                          style={{
-                            fontSize: `${fontSize}px`,
-                            fontStyle:
-                              fontStyle === "Italic" ? "italic" : "normal", // Apply italic if the fontStyle is "Italic"
-                            fontWeight:
-                              fontStyle === "Bold" ? "bold" : "normal", // Apply bold if the fontWeight is "Bold"
-                          }}
-                        >
-                          {platform}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
-
-          <div
             className={`
-              flex flex-col
+              flex flex-col  
                         gap-1 text-black backdrop-blur-sm bg-white/30
-              w-full items-center justify-center
+              w-full items-center justify-start p-3
               ${
                 profileData.additionalInfo.personal.button_style === "Rounded"
                   ? "rounded-full border-2 border-current"
@@ -506,125 +269,176 @@ export default function ProfilePage() {
               {profileData.additionalInfo.personal.description}
             </p>
           </div>
+          <div className="overflow-x-auto h-52 scrollbar-hide">
+            <div
+              style={{ height: "200px" }} // Set a fixed height here
+              className={`overflow-y-auto scrollbar-hide ${
+                activePaymentLinks.length > 0 ? "" : "hidden"
+              } `}
+            >
+              {activePaymentLinks.length > 0 && (
+                <h1
+                  className="text-black 
+              text-xl font-medium "
+                >
+                  Payment Info
+                </h1>
+              )}
+              <div className="grid grid-cols-1 gap-2 p-1">
+                {activePaymentLinks.map(([platform, url]) => {
+                  const fixedUrl =
+                    url?.startsWith("http://") || url?.startsWith("https://")
+                      ? url
+                      : `https://${url}`; // Add https:// if missing
 
-          {/* Action Buttons */}
-          <div className="space-y-3">
-            {profileData.contactInfo.email && (
-              <button
-                onClick={() => {
-                  window.open(
-                    `mailto:${profileData?.contactInfo.email}`,
-                    "_blank"
+                  const buttonStyle =
+                    profileData.additionalInfo.personal.button_style;
+                  const fontSize =
+                    profileData.additionalInfo.personal.font_size;
+                  const fontStyle =
+                    profileData.additionalInfo.personal.font_style;
+
+                  return (
+                    <>
+                      <div>
+                        <div
+                          onClick={() => {
+                            window.open(fixedUrl, "_blank");
+                          }}
+                          className={`
+                        gap-2 text-black backdrop-blur-sm bg-white/30
+              w-full h-12 flex items-center justify-center
+              ${
+                buttonStyle === "Rounded"
+                  ? "rounded-full border-2 border-current"
+                  : ""
+              }
+              ${buttonStyle === "Flat" ? " rounded-none" : ""}
+              ${
+                buttonStyle === "Outlined"
+                  ? "rounded-md border-2 border-white"
+                  : ""
+              }
+              ${buttonStyle === "Flat" ? "text-white" : ""}
+            `}
+                        >
+                          <i
+                            className={`text-3xl text-black ${getIconClass(
+                              platform
+                            )}`}
+                            aria-hidden="true"
+                          />
+                          <span
+                            className={`text-xs text-black capitalize
+                        
+                        `}
+                            style={{
+                              fontSize: `${fontSize}px`,
+                              fontStyle:
+                                fontStyle === "Italic" ? "italic" : "normal", // Apply italic if the fontStyle is "Italic"
+                              fontWeight:
+                                fontStyle === "Bold" ? "bold" : "normal", // Apply bold if the fontWeight is "Bold"
+                            }}
+                          >
+                            {platform}
+                          </span>
+                        </div>
+                      </div>
+                    </>
                   );
-                }}
-                className={`
+                })}
+              </div>
+            </div>
+            <div
+              style={{ height: "150px" }} // Set a fixed height here
+              className={`overflow-y-auto scrollbar-hide ${
+                activePersonal.length > 0 ? "" : "hidden"
+              } `}
+            >
+              {activePersonal.length > 0 && (
+                <h1
+                  className="text-black 
+              text-xl font-medium "
+                >
+                  Personal Info
+                </h1>
+              )}
+              <div className="grid grid-cols-1 gap-2 p-1">
+                {activePersonal.map(([platform, url]) => {
+                  const fixedUrl =
+                    url?.startsWith("http://") || url?.startsWith("https://")
+                      ? url
+                      : `https://${url}`; // Add https:// if missing
+
+                  const buttonStyle =
+                    profileData.additionalInfo.personal.button_style;
+                  const fontSize =
+                    profileData.additionalInfo.personal.font_size;
+                  const fontStyle =
+                    profileData.additionalInfo.personal.font_style;
+
+                  return (
+                    <>
+                      <div>
+                        <div
+                          onClick={() => {
+                            window.open(fixedUrl, "_blank");
+                          }}
+                          className={`
                         gap-2 text-black backdrop-blur-sm bg-white/30
               w-full h-12 flex items-center justify-center
               ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
+                buttonStyle === "Rounded"
                   ? "rounded-full border-2 border-current"
                   : ""
               }
+              ${buttonStyle === "Flat" ? " rounded-none" : ""}
               ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
+                buttonStyle === "Outlined"
                   ? "rounded-md border-2 border-white"
                   : ""
               }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
+              ${buttonStyle === "Flat" ? "text-white" : ""}
             `}
-              >
-                <Mail className="w-6 h-6 text-black" />
-                <span
-                  className={`text-center text-black`}
-                  style={{
-                    fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                    fontStyle:
-                      profileData.additionalInfo.personal.font_style ===
-                      "Italic"
-                        ? "italic"
-                        : "normal", // Apply italic if the fontStyle is "Italic"
-                    fontWeight:
-                      profileData.additionalInfo.personal.font_style === "Bold"
-                        ? "bold"
-                        : "normal", // Apply bold if the fontWeight is "Bold"
-                  }}
-                >
-                  Email
-                </span>
-              </button>
-            )}
-            {profileData.additionalInfo.resume && (
-              <button
-                onClick={() => {
-                  window.open(
-                    profileData?.additionalInfo.resume as string,
-                    "_blank"
+                        >
+                          <i
+                            className={`text-3xl text-black ${getIconClass(
+                              platform
+                            )}`}
+                            aria-hidden="true"
+                          />
+                          <span
+                            className={`text-xs text-black capitalize
+                        
+                        `}
+                            style={{
+                              fontSize: `${fontSize}px`,
+                              fontStyle:
+                                fontStyle === "Italic" ? "italic" : "normal", // Apply italic if the fontStyle is "Italic"
+                              fontWeight:
+                                fontStyle === "Bold" ? "bold" : "normal", // Apply bold if the fontWeight is "Bold"
+                            }}
+                          >
+                            {platform}
+                          </span>
+                        </div>
+                      </div>
+                    </>
                   );
-                }}
-                className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-              >
-                <FileText className="w-6 h-6 text-black" />
-                <span
-                  className={`text-center text-black`}
-                  style={{
-                    fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                    fontStyle:
-                      profileData.additionalInfo.personal.font_style ===
-                      "Italic"
-                        ? "italic"
-                        : "normal", // Apply italic if the fontStyle is "Italic"
-                    fontWeight:
-                      profileData.additionalInfo.personal.font_style === "Bold"
-                        ? "bold"
-                        : "normal", // Apply bold if the fontWeight is "Bold"
+                })}
+              </div>
+            </div>
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              {profileData.contactInfo.email && (
+                <button
+                  onClick={() => {
+                    window.open(
+                      `mailto:${profileData?.contactInfo.email}`,
+                      "_blank"
+                    );
                   }}
-                >
-                  RESUMÈ
-                </span>
-              </button>
-            )}
-
-            {profileData.contactInfo.phoneNumber && (
-              <button
-                onClick={() => {
-                  window.open(
-                    `https://wa.me/${profileData.contactInfo.phoneNumber}`,
-                    "_blank"
-                  );
-                }}
-                className={`
+                  className={`
                         gap-2 text-black backdrop-blur-sm bg-white/30
               w-full h-12 flex items-center justify-center
               ${
@@ -648,34 +462,37 @@ export default function ProfilePage() {
                   : ""
               }
             `}
-              >
-                <Phone className="w-6 h-6 text-black" />
-                <span
-                  className={`text-center text-black`}
-                  style={{
-                    fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                    fontStyle:
-                      profileData.additionalInfo.personal.font_style ===
-                      "Italic"
-                        ? "italic"
-                        : "normal", // Apply italic if the fontStyle is "Italic"
-                    fontWeight:
-                      profileData.additionalInfo.personal.font_style === "Bold"
-                        ? "bold"
-                        : "normal", // Apply bold if the fontWeight is "Bold"
+                >
+                  <Mail className="w-6 h-6 text-black" />
+                  <span
+                    className={`text-center text-black`}
+                    style={{
+                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                      fontStyle:
+                        profileData.additionalInfo.personal.font_style ===
+                        "Italic"
+                          ? "italic"
+                          : "normal", // Apply italic if the fontStyle is "Italic"
+                      fontWeight:
+                        profileData.additionalInfo.personal.font_style ===
+                        "Bold"
+                          ? "bold"
+                          : "normal", // Apply bold if the fontWeight is "Bold"
+                    }}
+                  >
+                    Email
+                  </span>
+                </button>
+              )}
+              {profileData.additionalInfo.resume && (
+                <button
+                  onClick={() => {
+                    window.open(
+                      profileData?.additionalInfo.resume as string,
+                      "_blank"
+                    );
                   }}
-                >
-                  WHATSAPP
-                </span>
-              </button>
-            )}
-
-            {profileData.contactInfo.skype && (
-              <button
-                onClick={() => {
-                  window.open(profileData.contactInfo.skype, "_blank");
-                }}
-                className={`
+                  className={`
                         gap-2 text-black backdrop-blur-sm bg-white/30
               w-full h-12 flex items-center justify-center
               ${
@@ -699,58 +516,65 @@ export default function ProfilePage() {
                   : ""
               }
             `}
-              >
-                <i className=" text-3xl text-black fa-brands fa-skype"> </i>
-                <span
-                  className={`text-center text-black`}
-                  style={{
-                    fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                    fontStyle:
-                      profileData.additionalInfo.personal.font_style ===
-                      "Italic"
-                        ? "italic"
-                        : "normal", // Apply italic if the fontStyle is "Italic"
-                    fontWeight:
-                      profileData.additionalInfo.personal.font_style === "Bold"
-                        ? "bold"
-                        : "normal", // Apply bold if the fontWeight is "Bold"
+                >
+                  <FileText className="w-6 h-6 text-black" />
+                  <span
+                    className={`text-center text-black`}
+                    style={{
+                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                      fontStyle:
+                        profileData.additionalInfo.personal.font_style ===
+                        "Italic"
+                          ? "italic"
+                          : "normal", // Apply italic if the fontStyle is "Italic"
+                      fontWeight:
+                        profileData.additionalInfo.personal.font_style ===
+                        "Bold"
+                          ? "bold"
+                          : "normal", // Apply bold if the fontWeight is "Bold"
+                    }}
+                  >
+                    RESUMÈ
+                  </span>
+                </button>
+              )}
+
+              {profileData.contactInfo.phoneNumber && (
+                <button
+                  onClick={() => {
+                    window.open(
+                      `https://wa.me/${profileData.contactInfo.phoneNumber}`,
+                      "_blank"
+                    );
                   }}
+                  className={`
+                        gap-2 text-black backdrop-blur-sm bg-white/30
+              w-full h-12 flex items-center justify-center
+              ${
+                profileData.additionalInfo.personal.button_style === "Rounded"
+                  ? "rounded-full border-2 border-current"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? " rounded-none"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Outlined"
+                  ? "rounded-md border-2 border-white"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? "text-white"
+                  : ""
+              }
+            `}
                 >
-                  Skype
-                </span>
-              </button>
-            )}
-
-            {profileData.contactInfo.zoom && (
-              <button
-                className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-              >
-                <Link target="_blank" to={profileData.contactInfo.zoom}>
+                  <Phone className="w-6 h-6 text-black" />
                   <span
-                    className={`text-center flex items-center w-full text-black`}
+                    className={`text-center text-black`}
                     style={{
                       fontSize: `${profileData.additionalInfo.personal.font_size}px`,
                       fontStyle:
@@ -765,16 +589,17 @@ export default function ProfilePage() {
                           : "normal", // Apply bold if the fontWeight is "Bold"
                     }}
                   >
-                    <Calendar className="mr-2 h-6 w-6 text-black" />
-                    Schedule a Zoom meeting
+                    WHATSAPP
                   </span>
-                </Link>
-              </button>
-            )}
+                </button>
+              )}
 
-            {profileData.contactInfo.googleMeet && (
-              <button
-                className={`
+              {profileData.contactInfo.skype && (
+                <button
+                  onClick={() => {
+                    window.open(profileData.contactInfo.skype, "_blank");
+                  }}
+                  className={`
                         gap-2 text-black backdrop-blur-sm bg-white/30
               w-full h-12 flex items-center justify-center
               ${
@@ -798,121 +623,10 @@ export default function ProfilePage() {
                   : ""
               }
             `}
-              >
-                <Link target="_blank" to={profileData.contactInfo.googleMeet}>
-                  <span
-                    className={`text-center flex items-center w-full text-black`}
-                    style={{
-                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                      fontStyle:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Italic"
-                          ? "italic"
-                          : "normal", // Apply italic if the fontStyle is "Italic"
-                      fontWeight:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Bold"
-                          ? "bold"
-                          : "normal", // Apply bold if the fontWeight is "Bold"
-                    }}
-                  >
-                    {" "}
-                    <Calendar className="mr-2 h-6 w-6 text-black" />
-                    Google Meet
-                  </span>
-                </Link>
-              </button>
-            )}
-
-            {profileData.contactInfo.calender && (
-              <button
-                className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-              >
-                <Link target="_blank" to={profileData.contactInfo.calender}>
-                  <span
-                    className={`text-center flex items-center w-full text-black`}
-                    style={{
-                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                      fontStyle:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Italic"
-                          ? "italic"
-                          : "normal", // Apply italic if the fontStyle is "Italic"
-                      fontWeight:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Bold"
-                          ? "bold"
-                          : "normal", // Apply bold if the fontWeight is "Bold"
-                    }}
-                  >
-                    {" "}
-                    <Calendar className="mr-2 h-6 w-6 text-black" />
-                    Calender
-                  </span>
-                </Link>
-              </button>
-            )}
-
-            {profileData.contactInfo.telegram && (
-              <button
-                className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-              >
-                <Link
-                  to={`${
-                    profileData.contactInfo.telegram.startsWith("https://t.me/")
-                      ? profileData.contactInfo.telegram
-                      : "https://t.me/" + profileData.contactInfo.telegram
-                  }`}
-                  target="_blank"
                 >
+                  <i className=" text-3xl text-black fa-brands fa-skype"> </i>
                   <span
-                    className={`text-center flex items-center w-full text-black`}
+                    className={`text-center text-black`}
                     style={{
                       fontSize: `${profileData.additionalInfo.personal.font_size}px`,
                       fontStyle:
@@ -927,70 +641,284 @@ export default function ProfilePage() {
                           : "normal", // Apply bold if the fontWeight is "Bold"
                     }}
                   >
-                    {" "}
-                    <i className="mr-2 text-3xl fa-brands fa-telegram"></i> Chat
-                    on Telegram
+                    Skype
                   </span>
-                </Link>
-              </button>
+                </button>
+              )}
+
+              {profileData.contactInfo.zoom && (
+                <button
+                  className={`
+                        gap-2 text-black backdrop-blur-sm bg-white/30
+              w-full h-12 flex items-center justify-center
+              ${
+                profileData.additionalInfo.personal.button_style === "Rounded"
+                  ? "rounded-full border-2 border-current"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? " rounded-none"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Outlined"
+                  ? "rounded-md border-2 border-white"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? "text-white"
+                  : ""
+              }
+            `}
+                >
+                  <Link target="_blank" to={profileData.contactInfo.zoom}>
+                    <span
+                      className={`text-center flex items-center w-full text-black`}
+                      style={{
+                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                        fontStyle:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Italic"
+                            ? "italic"
+                            : "normal", // Apply italic if the fontStyle is "Italic"
+                        fontWeight:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Bold"
+                            ? "bold"
+                            : "normal", // Apply bold if the fontWeight is "Bold"
+                      }}
+                    >
+                      <Calendar className="mr-2 h-6 w-6 text-black" />
+                      Schedule a Zoom meeting
+                    </span>
+                  </Link>
+                </button>
+              )}
+
+              {profileData.contactInfo.googleMeet && (
+                <button
+                  className={`
+                        gap-2 text-black backdrop-blur-sm bg-white/30
+              w-full h-12 flex items-center justify-center
+              ${
+                profileData.additionalInfo.personal.button_style === "Rounded"
+                  ? "rounded-full border-2 border-current"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? " rounded-none"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Outlined"
+                  ? "rounded-md border-2 border-white"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? "text-white"
+                  : ""
+              }
+            `}
+                >
+                  <Link target="_blank" to={profileData.contactInfo.googleMeet}>
+                    <span
+                      className={`text-center flex items-center w-full text-black`}
+                      style={{
+                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                        fontStyle:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Italic"
+                            ? "italic"
+                            : "normal", // Apply italic if the fontStyle is "Italic"
+                        fontWeight:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Bold"
+                            ? "bold"
+                            : "normal", // Apply bold if the fontWeight is "Bold"
+                      }}
+                    >
+                      {" "}
+                      <Calendar className="mr-2 h-6 w-6 text-black" />
+                      Google Meet
+                    </span>
+                  </Link>
+                </button>
+              )}
+
+              {profileData.contactInfo.calender && (
+                <button
+                  className={`
+                        gap-2 text-black backdrop-blur-sm bg-white/30
+              w-full h-12 flex items-center justify-center
+              ${
+                profileData.additionalInfo.personal.button_style === "Rounded"
+                  ? "rounded-full border-2 border-current"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? " rounded-none"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Outlined"
+                  ? "rounded-md border-2 border-white"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? "text-white"
+                  : ""
+              }
+            `}
+                >
+                  <Link target="_blank" to={profileData.contactInfo.calender}>
+                    <span
+                      className={`text-center flex items-center w-full text-black`}
+                      style={{
+                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                        fontStyle:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Italic"
+                            ? "italic"
+                            : "normal", // Apply italic if the fontStyle is "Italic"
+                        fontWeight:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Bold"
+                            ? "bold"
+                            : "normal", // Apply bold if the fontWeight is "Bold"
+                      }}
+                    >
+                      {" "}
+                      <Calendar className="mr-2 h-6 w-6 text-black" />
+                      Calender
+                    </span>
+                  </Link>
+                </button>
+              )}
+
+              {profileData.contactInfo.telegram && (
+                <button
+                  className={`
+                        gap-2 text-black backdrop-blur-sm bg-white/30
+              w-full h-12 flex items-center justify-center
+              ${
+                profileData.additionalInfo.personal.button_style === "Rounded"
+                  ? "rounded-full border-2 border-current"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? " rounded-none"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Outlined"
+                  ? "rounded-md border-2 border-white"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? "text-white"
+                  : ""
+              }
+            `}
+                >
+                  <Link
+                    to={`${
+                      profileData.contactInfo.telegram.startsWith(
+                        "https://t.me/"
+                      )
+                        ? profileData.contactInfo.telegram
+                        : "https://t.me/" + profileData.contactInfo.telegram
+                    }`}
+                    target="_blank"
+                  >
+                    <span
+                      className={`text-center flex items-center w-full text-black`}
+                      style={{
+                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                        fontStyle:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Italic"
+                            ? "italic"
+                            : "normal", // Apply italic if the fontStyle is "Italic"
+                        fontWeight:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Bold"
+                            ? "bold"
+                            : "normal", // Apply bold if the fontWeight is "Bold"
+                      }}
+                    >
+                      {" "}
+                      <i className="mr-2 text-3xl fa-brands fa-telegram"></i>{" "}
+                      Chat on Telegram
+                    </span>
+                  </Link>
+                </button>
+              )}
+            </div>
+            {profileData.contactInfo.physicalAddress && (
+              <div
+                className={` mt-2
+                        gap-2 text-black backdrop-blur-sm bg-white/30
+              w-full h-12 flex items-center justify-center
+              ${
+                profileData.additionalInfo.personal.button_style === "Rounded"
+                  ? "rounded-full border-2 border-current"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? " rounded-none"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Outlined"
+                  ? "rounded-md border-2 border-white"
+                  : ""
+              }
+              ${
+                profileData.additionalInfo.personal.button_style === "Flat"
+                  ? "text-white"
+                  : ""
+              }
+            `}
+              >
+                <p className="text-lg text-center text-black flex items-center justify-center">
+                  <Link
+                    className="w-full flex  justify-center items-center font-semibold"
+                    to={profileData.contactInfo.maplink}
+                    target="_blank"
+                  >
+                    <MapPin className="mr-2 h-8 w-8" />
+                    <span
+                      className={`text-center flex items-center w-full text-black`}
+                      style={{
+                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                        fontStyle:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Italic"
+                            ? "italic"
+                            : "normal", // Apply italic if the fontStyle is "Italic"
+                        fontWeight:
+                          profileData.additionalInfo.personal.font_style ===
+                          "Bold"
+                            ? "bold"
+                            : "normal", // Apply bold if the fontWeight is "Bold"
+                      }}
+                    >
+                      {profileData.contactInfo.physicalAddress}
+                    </span>
+                  </Link>
+                </p>
+              </div>
             )}
           </div>
-          {profileData.contactInfo.physicalAddress && (
-            <div
-              className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-            >
-              <p className="text-lg text-center text-black flex items-center justify-center">
-                <Link
-                  className="w-full flex  justify-center items-center font-semibold"
-                  to={profileData.contactInfo.maplink}
-                  target="_blank"
-                >
-                  <MapPin className="mr-2 h-8 w-8" />
-                  <span
-                    className={`text-center flex items-center w-full text-black`}
-                    style={{
-                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                      fontStyle:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Italic"
-                          ? "italic"
-                          : "normal", // Apply italic if the fontStyle is "Italic"
-                      fontWeight:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Bold"
-                          ? "bold"
-                          : "normal", // Apply bold if the fontWeight is "Bold"
-                    }}
-                  >
-                    {profileData.contactInfo.physicalAddress}
-                  </span>
-                </Link>
-              </p>
-            </div>
-          )}
         </div>
       </Card>
     </div>
