@@ -26,20 +26,18 @@ import { Link } from "react-router-dom";
 import { allIcons } from "./icons";
 import { UserProfileSkeleton } from "./Skeleton-data-loader";
 import { useNavigate } from "react-router-dom";
-function base64ToImage(base64String: string): HTMLImageElement {
-  const img = new Image();
-  img.src = `data:image/png;base64,${base64String}`; // Set the src to the base64 string
-  return img; // Return the Image element
+
+function base64ToImage(base64String: string): string {
+  return `data:image/png;base64,${base64String}`;
 }
 
 export default function ProfilePage() {
-  const navigate = useNavigate();
-  const { profileId } = useParams<{ profileId: string }>(); // Get profileId from the URL
+  const { profileId } = useParams<{ profileId: string }>();
   const [profileData, setProfileData] = useState<UserProfile | null>(null);
-  const [profileImage, setProfileImage] = useState<HTMLImageElement | null>(
-    null
-  );
-  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [bgImage, setBgImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     if (profileId) {
@@ -47,56 +45,39 @@ export default function ProfilePage() {
       getDoc(profileRef)
         .then((docSnapshot) => {
           if (docSnapshot.exists()) {
-            console.log("doc", docSnapshot.data());
             const data = docSnapshot.data() as UserProfile;
             setProfileData(data);
 
-            // Convert Base64 to Image once profileData is set
             if (data.additionalInfo.personal.background_image) {
-              const bgImageElement = base64ToImage(
-                data.additionalInfo.personal.background_image
+              setBgImage(
+                base64ToImage(data.additionalInfo.personal.background_image)
               );
-              setBgImage(bgImageElement);
             }
             if (data.additionalInfo.personal.profile_image) {
-              const profileImageElement = base64ToImage(
-                data.additionalInfo.personal.profile_image
+              setProfileImage(
+                base64ToImage(data.additionalInfo.personal.profile_image)
               );
-              setProfileImage(profileImageElement);
             }
           } else {
-            setProfileData(dummyData); // Fallback to dummy data if no document found
+            setProfileData(dummyData);
           }
         })
-        .catch((error) => {
-          console.error("Error fetching document: ", error);
-          setProfileData(dummyData); // Fallback in case of error
-        });
+        .catch(() => setProfileData(dummyData));
     }
   }, [profileId]);
-  if (!profileData) {
-    return (
-      <div>
-        <UserProfileSkeleton />
-      </div>
-    ); // Loading state while data is being fetched
-  }
+  console.log(dummyData.additionalInfo.personal.theme);
+  const [theme, setTheme] = useState<string>(dummyData.additionalInfo.personal.theme); // Theme state
+  const handleImageClick = () => {
+    setIsModalOpen(true);
+  };
 
-  const activeSocialLinks = Object.entries(profileData.socialMediaInfo)
-    .filter(([_, value]) => value !== null)
-    .slice(0, 20);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-  const activePersonal = Object.entries(profileData.additionalInfo)
-    .filter(([key, value]) => key !== "personal" && value !== null)
-    .slice(0, 20);
-
-  const activePaymentLinks = Object.entries(profileData.paymentInfo)
-    .filter(([_, value]) => value !== null)
-    .slice(0, 7);
-
-  const activeEcommerceLinks = Object.entries(profileData.ecommerceInfo)
-    .filter(([_, value]) => value !== null)
-    .slice(0, 7);
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   const getIconClass = (platform: string): string => {
     const icon = allIcons.find((item) => item.name === platform);
@@ -104,54 +85,138 @@ export default function ProfilePage() {
     return icon ? icon.icon : "fa-solid fa-link"; // Default to "link" icon if not found
   };
 
-  console.log("img", bgImage?.src, profileImage?.src);
+  const activeSocialLinks = Object.entries(profileData?.socialMediaInfo || dummyData.socialMediaInfo)
+    .filter(([_, value]) => value !== null)
+    .slice(0, 20);
+  const getPlatformColor = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case "facebook":
+        return "#1877F2"; // Facebook Blue
+      case "twitter":
+        return "#1DA1F2"; // Twitter Blue
+      case "instagram":
+        return "#C13584"; // Instagram Pink
+      case "linkedin":
+        return "#0A66C2"; // LinkedIn Blue
+      case "youtube":
+        return "#FF0000"; // YouTube Red
+      case "pinterest":
+        return "#E60023"; // Pinterest Red
+      case "snapchat":
+        return "#FFFC00"; // Snapchat Yellow
+      case "upwork":
+        return "#006ED4"; // Upwork Blue
+      case "applemusic":
+        return "#FE7423"; // Apple Music Orange
+      case "amazon":
+        return "#FF9900"; // Amazon Orange
+      case "substack":
+        return "#F37C30"; // Substack Orange
+      case "spotify":
+        return "#1DB954"; // Spotify Green
+      case "soundcloud":
+        return "#FF5500"; // SoundCloud Orange
+      case "medium":
+        return "#00AB6B"; // Medium Green
+      case "dribble":
+        return "#EA4C89"; // Dribbble Pink
+      case "fiver":
+        return "#00AEEF"; // Fiverr Blue
+      case "github":
+        return "#181717"; // GitHub Black
+      case "linkedin":
+        return "#0A66C2"; // LinkedIn Blue
+      case "behance":
+        return "#1769FF"; // Behance Blue
+      case "tiktok":
+        return "#69C9D0"; // TikTok Teal
+      case "freelancer":
+        return "#009EE3"; // Freelancer Blue
+      default:
+        return "#FFFFFF"; // Default White
+    }
+  };
+
   return (
     <div
       style={{
-        backgroundImage: `url(${
-          bgImage
-            ? bgImage.src
-            : dummyData.additionalInfo.personal.background_image
-        })`,
-        backgroundSize: "cover", // Ensures the image fits within the card without stretching
-        backgroundPosition: "center", // Centers the image
-        backgroundAttachment: "fixed",
-        backgroundRepeat: "no-repeat", // Ensures no repeat of background image
-        backgroundColor: "#2C5364", // Background color beneath the image
-        backdropFilter: "blur(8px)", // Increases blur intensity for the content
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "scroll",
+        backgroundColor: theme === "light" ? "#fff" : "#333",
+        color: theme === "light" ? "#000" : "#fff",
       }}
-      className="min-h-screen text-white p-4 flex items-center justify-center "
     >
-      {/* bg-gradient-to-r from-blue-500 to-purple-600 border none */}
-      <Card
-        style={{
-          backgroundImage: `url(${
-            profileImage
-              ? profileImage.src
-              : dummyData.additionalInfo.personal.background_image
-          })`,
-          backgroundSize: "100% 100%", // Stretch image to fill the container (like object-fill)
-          backgroundPosition: "center", // Centers the image
-          backgroundAttachment: "fixed",
-          backgroundRepeat: "no-repeat", // Ensures no repeat of background image
-          backgroundColor: "#2C5364", // Background color beneath the image
-          backdropFilter: "blur(8px)", // Increases blur intensity for the content
-        }}
-        className="w-full max-w-md mx-auto p-6 opacity-70 space-y-6 border-gray-400 rounded-3xl"
-      >
+      {/* Stack Layout */}
+      <div style={{ flex: 1, position: "relative" }}>
         {/* Profile Image */}
-        <div className="relative flex justify-center items-center rounded-full w-60 h-60 mx-auto mb-4"></div>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundImage: `url(${profileImage || dummyData.additionalInfo.personal.profile_image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            position: "relative",
+            cursor: "pointer",
+            transition: "background-image 0.5s ease-in-out", // Smooth transition
+          }}
+          onClick={handleImageClick} // Open image in modal when clicked
+        >
+          {/* Top Shade Overlay */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              width: "100%",
+              height: "20%", // Adjust the height of the shade overlay
+              background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0))`, // Shade overlay
+            }}
+          ></div>
 
-        {/* Name and Description */}
-        <div className="space-y-2  h-[26rem] ">
-          <div className="backdrop-blur-sm bg-white/30 rounded-3xl">
+          {/* Transparent Gradient Overlay */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              height: "30%", // Adjust gradient height for smoother transition
+              background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(255, 255, 255, 100))`, // Shade overlay
+            }}
+          ></div>
+        </div>
+
+        {/* Background Image at the Bottom */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            height: "50%", // Adjust according to your layout needs
+            backgroundImage: `url(${bgImage || dummyData.additionalInfo.personal.background_image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.7, // Adjust opacity for better visibility
+            transition: "opacity 0.5s ease-in-out", // Smooth transition for opacity change
+          }}
+
+        >
+          <div
+            style={{
+              width: "80%",
+              marginLeft: "10%",
+              marginTop: "2%",
+              marginBottom: "2%",
+            }}
+          >
             <motion.div
               initial={false}
               animate={{ height: activeSocialLinks.length > 0 ? "auto" : 0 }}
               transition={{ duration: 0.3 }}
               className="overflow-hidden"
             >
-              <div className="grid grid-flow-col gap-8  p-3 overflow-x-auto scrollbar-hide">
+              <div className="grid grid-flow-col gap-8 p-3 overflow-x-auto scrollbar-hide">
                 {activeSocialLinks.map(([platform, url]) => {
                   const fixedUrl =
                     url?.startsWith("http://") || url?.startsWith("https://")
@@ -170,14 +235,16 @@ export default function ProfilePage() {
                         <Tooltip>
                           <div
                             className={`
-                        w-12 h-12 mb-2 flex items-center justify-center hover:text-black rounded-full border-2 border-current
-                      `}
+                    w-12 h-12 mb-2 flex items-center justify-center
+                    rounded-full border-2 border-current
+                    bg-black hover:bg-gray-800 transition-all
+                  `}
                           >
-                            {" "}
                             <i
-                              className={`text-3xl hover:text-black ${getIconClass(
+                              className={`text-3xl text-current ${getIconClass(
                                 platform
                               )}`}
+                              style={{ color: getPlatformColor(platform) }} // Set dynamic color for the icon
                               aria-hidden="true"
                             />
                           </div>
@@ -192,727 +259,179 @@ export default function ProfilePage() {
               </div>
             </motion.div>
           </div>
-          <div
-            className={`
-              flex flex-col  
-                        gap-1 text-black backdrop-blur-sm bg-white/30
-              w-full items-center justify-start p-3
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-          >
-            <p
-              className={`text-lg text-center text-black ${
-                profileData.additionalInfo.personal.font_style === "Bold"
-                  ? "font-bold"
-                  : ""
-              } ${
-                profileData.additionalInfo.personal.font_style === "Italic"
-                  ? "italic"
-                  : ""
-              }`}
-              style={{
-                fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-              }}
-            >
-              {profileData.additionalInfo.personal.fullname}
-            </p>
-            <p
-              className={`text-lg text-center text-black ${
-                profileData.additionalInfo.personal.font_style === "Bold"
-                  ? "font-bold"
-                  : ""
-              } ${
-                profileData.additionalInfo.personal.font_style === "Italic"
-                  ? "italic"
-                  : ""
-              }`}
-              style={{
-                fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-              }}
-            >
-              {profileData.additionalInfo.personal.designation}
-            </p>
 
-            <p
-              className={`text-lg text-center text-black ${
-                profileData.additionalInfo.personal.font_style === "Bold"
-                  ? "font-bold"
-                  : ""
-              } ${
-                profileData.additionalInfo.personal.font_style === "Italic"
-                  ? "italic"
-                  : ""
-              }`}
-              style={{
-                fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-              }}
-            >
-              {profileData.additionalInfo.personal.description}
-            </p>
-          </div>
-          <div className="overflow-x-auto h-52 scrollbar-hide">
-            <div className={`${activePersonal.length > 0 ? "" : "hidden"} `}>
-              {activePersonal.length > 0 && (
-                <h1
-                  className="text-black 
-              text-xl font-medium "
-                >
-                  Personal Info
-                </h1>
-              )}
-              <div className="grid grid-cols-1 gap-2 p-1">
-                {activePersonal.map(([platform, url]) => {
-                  const fixedUrl =
-                    url?.startsWith("http://") || url?.startsWith("https://")
-                      ? url
-                      : `https://${url}`; // Add https:// if missing
 
-                  const buttonStyle =
-                    profileData.additionalInfo.personal.button_style;
-                  const fontSize =
-                    profileData.additionalInfo.personal.font_size;
-                  const fontStyle =
-                    profileData.additionalInfo.personal.font_style;
-
-                  return (
-                    <>
-                      <div>
-                        <div
-                          onClick={() => {
-                            window.open(fixedUrl, "_blank");
-                          }}
-                          className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                buttonStyle === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? " rounded-none" : ""}
-              ${
-                buttonStyle === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? "text-white" : ""}
-            `}
-                        >
-                          <i
-                            className={`text-3xl text-black ${getIconClass(
-                              platform
-                            )}`}
-                            aria-hidden="true"
-                          />
-                          <span
-                            className={`text-xs text-black capitalize
-                        
-                        `}
-                            style={{
-                              fontSize: `${fontSize}px`,
-                              fontStyle:
-                                fontStyle === "Italic" ? "italic" : "normal", // Apply italic if the fontStyle is "Italic"
-                              fontWeight:
-                                fontStyle === "Bold" ? "bold" : "normal", // Apply bold if the fontWeight is "Bold"
-                            }}
-                          >
-                            {platform}
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
+          {/* Header Section for Full Name, Designation, and Description */}
+          <div style={{ flex: 1, position: "relative" }}>
             <div
-              className={` ${activePaymentLinks.length > 0 ? "" : "hidden"} `}
+              style={{
+                padding: "20px",
+                textAlign: "center",
+                backgroundColor: theme === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)",
+                width: "80%",
+                marginLeft: "10%",
+                marginTop: "2%",
+                marginBottom: "2%", // Adding margin at the bottom
+                borderRadius: "8px",
+                boxShadow: theme === "light" ? "0 4px 6px rgba(0, 0, 0, 0.1)" : "0 4px 6px rgba(255, 255, 255, 0.1)",
+                backdropFilter: "blur(10px)",
+                transition: "all 0.3s ease-in-out",
+              }}
             >
-              {activePaymentLinks.length > 0 && (
-                <h1
-                  className="text-black 
-              text-xl font-medium "
-                >
-                  Payment Info
-                </h1>
-              )}
-              <div className="grid grid-cols-1 gap-2 p-1">
-                {activePaymentLinks.map(([platform, url]) => {
-                  const fixedUrl =
-                    url?.startsWith("http://") || url?.startsWith("https://")
-                      ? url
-                      : `https://${url}`; // Add https:// if missing
+              <h1 style={{ margin: 0, fontSize: profileData?.additionalInfo.personal.font_size || dummyData.additionalInfo.personal.font_size, fontFamily: profileData?.additionalInfo.personal.font_family || dummyData.additionalInfo.personal.font_family }}>
+                {profileData?.additionalInfo.personal.fullname || dummyData.additionalInfo.personal.fullname}
+              </h1>
+              <p style={{ margin: "5px 0", fontSize: profileData?.additionalInfo.personal.font_size || dummyData.additionalInfo.personal.font_size, color: theme === "light" ? "#666" : "#ccc", fontFamily: profileData?.additionalInfo.personal.font_family || dummyData.additionalInfo.personal.font_family }}>
+                {profileData?.additionalInfo.personal.designation || dummyData.additionalInfo.personal.designation}
+              </p>
+              <p style={{ margin: 0, fontSize: profileData?.additionalInfo.personal.font_size || dummyData.additionalInfo.personal.font_size, color: theme === "light" ? "#333" : "#bbb", fontFamily: profileData?.additionalInfo.personal.font_family || dummyData.additionalInfo.personal.font_family }}>
+                {profileData?.additionalInfo.personal.description || dummyData.additionalInfo.personal.description}
+              </p>
+            </div>
 
-                  const buttonStyle =
-                    profileData.additionalInfo.personal.button_style;
-                  const fontSize =
-                    profileData.additionalInfo.personal.font_size;
-                  const fontStyle =
-                    profileData.additionalInfo.personal.font_style;
 
-                  return (
-                    <>
-                      <div>
-                        <div
-                          onClick={() => {
-                            window.open(fixedUrl, "_blank");
-                          }}
-                          className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                buttonStyle === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? " rounded-none" : ""}
-              ${
-                buttonStyle === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${buttonStyle === "Flat" ? "text-white" : ""}
-            `}
-                        >
-                          <i
-                            className={`text-3xl text-black ${getIconClass(
-                              platform
-                            )}`}
-                            aria-hidden="true"
-                          />
-                          <span
-                            className={`text-xs text-black capitalize
-                        
-                        `}
-                            style={{
-                              fontSize: `${fontSize}px`,
-                              fontStyle:
-                                fontStyle === "Italic" ? "italic" : "normal", // Apply italic if the fontStyle is "Italic"
-                              fontWeight:
-                                fontStyle === "Bold" ? "bold" : "normal", // Apply bold if the fontWeight is "Bold"
-                            }}
-                          >
-                            {platform}
-                          </span>
-                        </div>
-                      </div>
-                    </>
+          </div>
+          <div style={{ height: "120px", overflow: "auto" }}> <div className="space-y-3" style={{
+            textAlign: "center",
+            backgroundColor: theme === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)",
+            width: "80%",
+            marginLeft: "10%",
+            marginTop: "2%",
+            marginBottom: "2%", // Adding margin at the bottom
+            borderRadius: "8px",
+            boxShadow: theme === "light" ? "0 4px 6px rgba(0, 0, 0, 0.1)" : "0 4px 6px rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            transition: "all 0.3s ease-in-out",
+          }}>
+            {profileData?.contactInfo.email && (
+              <button
+                onClick={() => {
+                  window.open(
+                    `mailto:${profileData?.contactInfo.email}`,
+                    "_blank"
                   );
-                })}
-              </div>
-            </div>
-            {/* Action Buttons */}
-            <div className="space-y-3">
-              {profileData.contactInfo.email && (
-                <button
-                  onClick={() => {
-                    window.open(
-                      `mailto:${profileData?.contactInfo.email}`,
-                      "_blank"
-                    );
-                  }}
-                  className={`
+                }}
+                className={`
                         gap-2 text-black backdrop-blur-sm bg-white/30
               w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <Mail className="w-6 h-6 text-black" />
-                  <span
-                    className={`text-center text-black`}
-                    style={{
-                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                      fontStyle:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Italic"
-                          ? "italic"
-                          : "normal", // Apply italic if the fontStyle is "Italic"
-                      fontWeight:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Bold"
-                          ? "bold"
-                          : "normal", // Apply bold if the fontWeight is "Bold"
-                    }}
-                  >
-                    Email
-                  </span>
-                </button>
-              )}
-              {profileData.additionalInfo.resume && (
-                <button
-                  onClick={() => {
-                    window.open(
-                      profileData?.additionalInfo.resume as string,
-                      "_blank"
-                    );
-                  }}
-                  className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <FileText className="w-6 h-6 text-black" />
-                  <span
-                    className={`text-center text-black`}
-                    style={{
-                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                      fontStyle:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Italic"
-                          ? "italic"
-                          : "normal", // Apply italic if the fontStyle is "Italic"
-                      fontWeight:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Bold"
-                          ? "bold"
-                          : "normal", // Apply bold if the fontWeight is "Bold"
-                    }}
-                  >
-                    RESUMÈ
-                  </span>
-                </button>
-              )}
-
-              {profileData.contactInfo.phoneNumber && (
-                <button
-                  onClick={() => {
-                    window.open(
-                      `https://wa.me/${profileData.contactInfo.phoneNumber}`,
-                      "_blank"
-                    );
-                  }}
-                  className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <Phone className="w-6 h-6 text-black" />
-                  <span
-                    className={`text-center text-black`}
-                    style={{
-                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                      fontStyle:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Italic"
-                          ? "italic"
-                          : "normal", // Apply italic if the fontStyle is "Italic"
-                      fontWeight:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Bold"
-                          ? "bold"
-                          : "normal", // Apply bold if the fontWeight is "Bold"
-                    }}
-                  >
-                    WHATSAPP
-                  </span>
-                </button>
-              )}
-
-              {profileData.contactInfo.skype && (
-                <button
-                  onClick={() => {
-                    window.open(profileData.contactInfo.skype, "_blank");
-                  }}
-                  className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <i className=" text-3xl text-black fa-brands fa-skype"> </i>
-                  <span
-                    className={`text-center text-black`}
-                    style={{
-                      fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                      fontStyle:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Italic"
-                          ? "italic"
-                          : "normal", // Apply italic if the fontStyle is "Italic"
-                      fontWeight:
-                        profileData.additionalInfo.personal.font_style ===
-                        "Bold"
-                          ? "bold"
-                          : "normal", // Apply bold if the fontWeight is "Bold"
-                    }}
-                  >
-                    Skype
-                  </span>
-                </button>
-              )}
-
-              {profileData.contactInfo.zoom && (
-                <button
-                  className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <Link target="_blank" to={profileData.contactInfo.zoom}>
-                    <span
-                      className={`text-center flex items-center w-full text-black`}
-                      style={{
-                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                        fontStyle:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Italic"
-                            ? "italic"
-                            : "normal", // Apply italic if the fontStyle is "Italic"
-                        fontWeight:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Bold"
-                            ? "bold"
-                            : "normal", // Apply bold if the fontWeight is "Bold"
-                      }}
-                    >
-                      <Calendar className="mr-2 h-6 w-6 text-black" />
-                      Schedule a Zoom meeting
-                    </span>
-                  </Link>
-                </button>
-              )}
-
-              {profileData.contactInfo.googleMeet && (
-                <button
-                  className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <Link target="_blank" to={profileData.contactInfo.googleMeet}>
-                    <span
-                      className={`text-center flex items-center w-full text-black`}
-                      style={{
-                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                        fontStyle:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Italic"
-                            ? "italic"
-                            : "normal", // Apply italic if the fontStyle is "Italic"
-                        fontWeight:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Bold"
-                            ? "bold"
-                            : "normal", // Apply bold if the fontWeight is "Bold"
-                      }}
-                    >
-                      {" "}
-                      <Calendar className="mr-2 h-6 w-6 text-black" />
-                      Google Meet
-                    </span>
-                  </Link>
-                </button>
-              )}
-
-              {profileData.contactInfo.calender && (
-                <button
-                  className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <Link target="_blank" to={profileData.contactInfo.calender}>
-                    <span
-                      className={`text-center flex items-center w-full text-black`}
-                      style={{
-                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                        fontStyle:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Italic"
-                            ? "italic"
-                            : "normal", // Apply italic if the fontStyle is "Italic"
-                        fontWeight:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Bold"
-                            ? "bold"
-                            : "normal", // Apply bold if the fontWeight is "Bold"
-                      }}
-                    >
-                      {" "}
-                      <Calendar className="mr-2 h-6 w-6 text-black" />
-                      Calender
-                    </span>
-                  </Link>
-                </button>
-              )}
-
-              {profileData.contactInfo.telegram && (
-                <button
-                  className={`
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
-            `}
-                >
-                  <Link
-                    to={`${
-                      profileData.contactInfo.telegram.startsWith(
-                        "https://t.me/"
-                      )
-                        ? profileData.contactInfo.telegram
-                        : "https://t.me/" + profileData.contactInfo.telegram
-                    }`}
-                    target="_blank"
-                  >
-                    <span
-                      className={`text-center flex items-center w-full text-black`}
-                      style={{
-                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                        fontStyle:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Italic"
-                            ? "italic"
-                            : "normal", // Apply italic if the fontStyle is "Italic"
-                        fontWeight:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Bold"
-                            ? "bold"
-                            : "normal", // Apply bold if the fontWeight is "Bold"
-                      }}
-                    >
-                      {" "}
-                      <i className="mr-2 text-3xl fa-brands fa-telegram"></i>{" "}
-                      Chat on Telegram
-                    </span>
-                  </Link>
-                </button>
-              )}
-            </div>
-            {profileData.contactInfo.physicalAddress && (
-              <div
-                className={` mt-2
-                        gap-2 text-black backdrop-blur-sm bg-white/30
-              w-full h-12 flex items-center justify-center
-              ${
-                profileData.additionalInfo.personal.button_style === "Rounded"
-                  ? "rounded-full border-2 border-current"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? " rounded-none"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Outlined"
-                  ? "rounded-md border-2 border-white"
-                  : ""
-              }
-              ${
-                profileData.additionalInfo.personal.button_style === "Flat"
-                  ? "text-white"
-                  : ""
-              }
+              ${profileData.additionalInfo.personal.button_style === "Rounded"
+                    ? "rounded-full border-2 border-current"
+                    : ""
+                  }
+              ${profileData.additionalInfo.personal.button_style === "Flat"
+                    ? " rounded-none"
+                    : ""
+                  }
+              ${profileData.additionalInfo.personal.button_style === "Outlined"
+                    ? "rounded-md border-2 border-white"
+                    : ""
+                  }
+              ${profileData.additionalInfo.personal.button_style === "Flat"
+                    ? "text-white"
+                    : ""
+                  }
             `}
               >
-                <p className="text-lg text-center text-black flex items-center justify-center">
+                <Mail className="w-6 h-6 text-black" />
+                <span
+                  className={`text-center text-black`}
+                  style={{
+                    fontSize: `${profileData.additionalInfo.personal.font_size}px`,
+                    fontFamily: profileData.additionalInfo.personal.font_family
+                  }}
+                >
+                  Email
+                </span>
+              </button>)}
+          </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+      {/* Profile Image Modal */}
+      {
+        isModalOpen && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={closeModal} // Close modal when clicked outside
+          >
+            <img
+              src={profileImage || dummyData.additionalInfo.personal.profile_image}
+              alt="Profile Preview"
+              style={{ maxWidth: "90%", maxHeight: "90%", objectFit: "contain" }}
+            />
+          </div>
+        )
+      }
+
+      <footer
+
+      >
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "5px" }}>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <motion.div
+                  style={{
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "8px",
+                    overflow: "hidden", // Ensures content does not overflow
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <MapPin size={18} />
                   <Link
-                    className="w-full flex  justify-center items-center font-semibold"
-                    to={profileData.contactInfo.maplink}
+                    className="w-full flex justify-center items-center font-semibold"
+                    to={profileData?.contactInfo.maplink || dummyData.contactInfo.maplink}
                     target="_blank"
                   >
-                    <MapPin className="mr-2 h-8 w-8" />
-                    <span
-                      className={`text-center flex items-center w-full text-black`}
-                      style={{
-                        fontSize: `${profileData.additionalInfo.personal.font_size}px`,
-                        fontStyle:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Italic"
-                            ? "italic"
-                            : "normal", // Apply italic if the fontStyle is "Italic"
-                        fontWeight:
-                          profileData.additionalInfo.personal.font_style ===
-                          "Bold"
-                            ? "bold"
-                            : "normal", // Apply bold if the fontWeight is "Bold"
-                      }}
-                    >
-                      {profileData.contactInfo.physicalAddress}
+                    <span style={{ marginLeft: "5px", whiteSpace: "nowrap", fontSize: profileData?.additionalInfo.personal.font_size || dummyData.additionalInfo.personal.font_size, fontFamily: profileData?.additionalInfo.personal.font_family || dummyData.additionalInfo.personal.font_family }}>
+                      {profileData?.contactInfo.physicalAddress || dummyData.contactInfo.physicalAddress}
                     </span>
                   </Link>
-                </p>
-              </div>
-            )}
-          </div>
+                </motion.div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <Link
+                  className="w-full flex justify-center items-center font-semibold"
+                  to={profileData?.contactInfo.physicalAddress ?? dummyData?.contactInfo.physicalAddress}
+                  target="_blank"
+                >
+                  <span>Address</span>
+                </Link>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+
+
+
+          {/* Divider */}
+          <hr
+            style={{
+              width: "80%",
+              border: "1px solid #ccc",
+
+            }}
+          />
         </div>
-      </Card>
-    </div>
+      </footer>
+
+    </div >
   );
 }

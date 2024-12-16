@@ -18,6 +18,8 @@ export const dummyData: UserProfile = {
         "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png",
       font_style: "Arial",
       font_size: 14,
+      font_family: 'Roboto',
+      theme: 'light',
       description:
         "Experienced software developer specializing in full-stack development.",
       background_image:

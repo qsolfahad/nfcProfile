@@ -17,6 +17,8 @@ export const dummyData: UserProfile = {
       profile_image: "https://example.com/profile.jpg",
       font_style: "Bold",
       font_size: 18,
+      font_family: 'Roboto',
+      theme: 'light',
       description:
         "This is a sample description about me. I am passionate about web development and UI/UX design.",
       background_image: "https://example.com/background.jpg",

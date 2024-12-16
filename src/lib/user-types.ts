@@ -21,6 +21,8 @@ interface PersonalInfo {
   profile_image: string;
   font_style: string;
   font_size: number;
+  font_family: string;
+  theme: string;
   description: string | null;
   background_image: string;
   designation: string;
