@@ -48,7 +48,7 @@ export default function ProfilePage() {
           if (docSnapshot.exists()) {
             const data = docSnapshot.data() as UserProfile;
             setProfileData(data);
-
+            console.log("data",data)
             if (data.additionalInfo.personal.background_image) {
               setBgImage(
                 base64ToImage(data.additionalInfo.personal.background_image)
@@ -186,8 +186,8 @@ export default function ProfilePage() {
             style={{
               width: "100%",
               height: "80%",
-              backgroundImage: "url(/asd.jpg)",
-              // backgroundImage: `url(${profileImage || dummyData.additionalInfo.personal.profile_image})`,
+              // backgroundImage: "url(/asd.jpg)",
+              backgroundImage: `url(${profileImage || dummyData.additionalInfo.personal.profile_image})`,
 
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -556,60 +556,45 @@ export default function ProfilePage() {
               gap: "5px",
             }}
           >
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <motion.div
-                    style={{
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      borderRadius: "8px",
-                      overflow: "hidden", // Ensures content does not overflow
-                    }}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <MapPin size={18} />
-                    <Link
-                      className="w-full flex justify-center items-center font-semibold"
-                      to={
-                        profileData?.contactInfo.maplink ||
-                        dummyData.contactInfo.maplink
-                      }
-                      target="_blank"
-                    >
-                      <span
-                        style={{
-                          marginLeft: "5px",
-                          whiteSpace: "nowrap",
-                          fontSize:
-                            profileData?.additionalInfo.personal.font_size ||
-                            dummyData.additionalInfo.personal.font_size,
-                          fontFamily:
-                            profileData?.additionalInfo.personal.font_family ||
-                            dummyData.additionalInfo.personal.font_family,
-                        }}
-                      >
-                        {profileData?.contactInfo.physicalAddress ||
-                          dummyData.contactInfo.physicalAddress}
-                      </span>
-                    </Link>
-                  </motion.div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <Link
-                    className="w-full flex justify-center items-center font-semibold"
-                    to={
-                      profileData?.contactInfo.physicalAddress ??
-                      dummyData?.contactInfo.physicalAddress
-                    }
-                    target="_blank"
-                  >
-                    <span>Address</span>
-                  </Link>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            
+            <motion.div
+  style={{
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    borderRadius: "8px",
+    overflow: "hidden", // Ensures content does not overflow
+  }}
+  whileHover={{ scale: 1.1 }}
+>
+  <MapPin size={18} />
+  <Link
+    className="w-full flex justify-start items-center font-semibold" // Ensures the content stays left-aligned
+    to={
+      profileData?.contactInfo.maplink ||
+      dummyData.contactInfo.maplink
+    }
+    target="_blank"
+  >
+    <span
+      style={{
+        marginLeft: "5px",
+        fontSize:
+          profileData?.additionalInfo.personal.font_size ||
+          dummyData.additionalInfo.personal.font_size,
+        fontFamily:
+          profileData?.additionalInfo.personal.font_family ||
+          dummyData.additionalInfo.personal.font_family,
+      }}
+      className="w-64 text-center break-words overflow-hidden max-h-[4.5rem] line-clamp-3"
+    >
+      {profileData?.contactInfo.physicalAddress ||
+        dummyData.contactInfo.physicalAddress}
+      sdasdasdfashklflkdfhjklsdhflashfklahsdflhsdlfhdklahflasdhfklsdhfklhsdlfhsdlfhsdh
+    </span>
+  </Link>
+</motion.div>
+
 
             {/* Divider */}
             <hr
