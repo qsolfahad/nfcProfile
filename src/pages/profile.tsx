@@ -7,6 +7,8 @@ import {
   Mail,
   MapPin,
   Phone,
+  Sun,
+  Moon,
 } from "lucide-react";
 import {
   Tooltip,
@@ -155,8 +157,28 @@ export default function ProfilePage() {
           backgroundColor: theme === "light" ? "#fff" : "#333",
           color: theme === "light" ? "#000" : "#fff",
           borderRadius: ".5rem",
+          position: "relative",
         }}
       >
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            zIndex: 10,
+          }}
+        >
+          {theme === "light" ? (
+            <Moon className="w-6 h-6 text-black" /> // Show moon icon for light theme
+          ) : (
+            <Sun className="w-6 h-6 text-yellow-500" /> // Show sun icon for dark theme
+          )}
+        </button>
         {/* Stack Layout */}
         <div style={{ flex: 1, position: "relative" }}>
           {/* Profile Image */}
