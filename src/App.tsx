@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProfilePage from "./pages/profile";
+// import ProfilePage from "./pages/profile";
 import HomePage from "./pages/homepage";
+import ProfilePage from "./pages/Profile-card";
 
 function App() {
   return (

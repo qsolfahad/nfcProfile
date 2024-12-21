@@ -17,12 +17,10 @@ interface AdditionalInfo {
 }
 
 interface PersonalInfo {
-  button_style: string;
-  profile_image: string;
-  font_style: string;
   font_size: number;
   font_family: string;
-  theme: string;
+  theme: "light"|"dark";
+  profile_image: string;
   description: string | null;
   background_image: string;
   designation: string;
@@ -42,17 +40,17 @@ interface PaymentInfo {
 interface ContactInfo {
   skype: string;
   zoom: string;
-  whatsapp: string;
   calender: string | null;
   googleMeet: string | null;
+  telegram: string;
+  whatsapp: string;
   phoneNumber: string;
   maplink: string;
   email: string;
   physicalAddress: string;
-  telegram: string;
 }
 
-interface SocialMediaInfo {
+export interface SocialMediaInfo {
   pinterest: string | null;
   youtube: string | null;
   snapchat: string | null;
