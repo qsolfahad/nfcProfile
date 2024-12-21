@@ -452,9 +452,7 @@ const getPlatformColor = (platform: string) => {
               >
                 <i
                   className={`fa-solid fa-envelope text-2xl
-                  ${
-                    theme === "light" ? "text-black" : "text-white"
-                  }
+                  ${theme === "light" ? "text-black" : "text-white"}
                   `}
                 ></i>
 
@@ -502,7 +500,7 @@ const getPlatformColor = (platform: string) => {
               </Button>
             )}
 
-            {profileData?.contactInfo.whatsapp && (
+            {profileData?.contactInfo.phoneNumber && (
               <Button
                 variant="outline"
                 style={{
@@ -517,16 +515,13 @@ const getPlatformColor = (platform: string) => {
                 onClick={() => {
                   handleCopy();
                 }}
-                className={`w-full h-14
-                
-                ${
-                  theme == "light"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-                }
-                   backdrop-blur-sm 
-                   
-                    rounded-2xl`}
+                className={`w-full h-14 
+    ${
+      theme === "light"
+        ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+        : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+    }
+    backdrop-blur-sm rounded-2xl`}
               >
                 <i
                   className={`text-2xl fa-solid fa-phone ${
@@ -552,10 +547,7 @@ const getPlatformColor = (platform: string) => {
                     dummyData.additionalInfo.personal.font_family,
                 }}
                 onClick={() => {
-                  window.open(
-                    `${profileData?.contactInfo.skype}`,
-                    "_blank"
-                  );
+                  window.open(`${profileData?.contactInfo.skype}`, "_blank");
                 }}
                 className={`w-full h-14
           ${
@@ -743,7 +735,7 @@ const getPlatformColor = (platform: string) => {
                         dummyData.additionalInfo.personal.font_family,
                     }}
                     onClick={() => {
-                      const url =  `${method}`;
+                      const url = `${method}`;
                       window.open(url, "_blank");
                     }}
                     className={`w-full h-14 ${
