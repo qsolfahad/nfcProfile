@@ -104,43 +104,36 @@ export default function ProfilePage() {
     {
       name: "gCash",
       icon: "fa-solid fa-money-bill",
-      linkPrefix: "gcash://",
       method: profileData?.paymentInfo.gCash,
     },
     {
       name: "payoneer",
       icon: "fa-solid fa-credit-card",
-      linkPrefix: "payoneer://",
       method: profileData?.paymentInfo.payoneer,
     },
     {
       name: "paypal",
       icon: "fa-brands fa-paypal",
-      linkPrefix: "https://www.paypal.com/paypalme/",
       method: profileData?.paymentInfo.paypal,
     },
     {
       name: "venmo",
       icon: "fa-brands fa-vimeo",
-      linkPrefix: "venmo://",
       method: profileData?.paymentInfo.venmo,
     },
     {
       name: "wise",
       icon: "fa-regular fa-credit-card",
-      linkPrefix: "https://wise.com",
       method: profileData?.paymentInfo.wise,
     },
     {
       name: "cryptocurrency",
       icon: "fa-brands fa-btc",
-      linkPrefix: "crypto://",
       method: profileData?.paymentInfo.cryptocurrency,
     },
     {
       name: "stripe",
       icon: "fa-brands fa-stripe",
-      linkPrefix: "stripe://",
       method: profileData?.paymentInfo.stripe,
     },
   ];
@@ -149,37 +142,31 @@ export default function ProfilePage() {
     {
       name: "Amazon Store",
       icon: "fa-brands fa-amazon",
-      linkPrefix: "https://www.amazon.com/shop/",
       method: profileData?.ecommerceInfo.amazonStore,
     },
     {
       name: "eBay Store",
       icon: "fa-brands fa-ebay",
-      linkPrefix: "https://www.ebay.com/str/",
       method: profileData?.ecommerceInfo.ebay,
     },
     {
       name: "Shopee Store",
       icon: "fa-solid fa-store",
-      linkPrefix: "https://shopee.com/",
       method: profileData?.ecommerceInfo.shopee,
     },
     {
       name: "Shopify Store",
       icon: "fa-brands fa-shopify",
-      linkPrefix: "https://",
       method: profileData?.ecommerceInfo.shopifyStore,
     },
     {
       name: "Lazada Store",
       icon: "fa-solid fa-store",
-      linkPrefix: "https://www.lazada.com.my/shop/",
       method: profileData?.ecommerceInfo.lazada,
     },
     {
       name: "Etsy Store",
       icon: "fa-brands fa-etsy",
-      linkPrefix: "https://www.etsy.com/shop/",
       method: profileData?.ecommerceInfo.etsy,
     },
   ];
@@ -566,7 +553,7 @@ const getPlatformColor = (platform: string) => {
                 }}
                 onClick={() => {
                   window.open(
-                    `skype:${profileData?.contactInfo.skype}?chat`,
+                    `${profileData?.contactInfo.skype}`,
                     "_blank"
                   );
                 }}
@@ -740,7 +727,7 @@ const getPlatformColor = (platform: string) => {
             )}
 
             {paymentMethods.map(
-              ({ name, icon, linkPrefix, method }) =>
+              ({ name, icon, method }) =>
                 method &&
                 method.length > 0 && (
                   <Button
@@ -756,9 +743,7 @@ const getPlatformColor = (platform: string) => {
                         dummyData.additionalInfo.personal.font_family,
                     }}
                     onClick={() => {
-                      const url = linkPrefix
-                        ? `${linkPrefix}${method}`
-                        : `${method}`;
+                      const url =  `${method}`;
                       window.open(url, "_blank");
                     }}
                     className={`w-full h-14 ${
@@ -780,7 +765,7 @@ const getPlatformColor = (platform: string) => {
             )}
 
             {ecommerceMethods.map(
-              ({ name, icon, linkPrefix, method }) =>
+              ({ name, icon, method }) =>
                 method &&
                 method.length > 0 && (
                   <Button
@@ -796,9 +781,7 @@ const getPlatformColor = (platform: string) => {
                         dummyData.additionalInfo.personal.font_family,
                     }}
                     onClick={() => {
-                      const url = linkPrefix
-                        ? `${linkPrefix}${method}`
-                        : `${method}`;
+                      const url = `${method}`;
                       window.open(url, "_blank");
                     }}
                     className={`w-full h-14 ${
