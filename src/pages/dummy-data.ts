@@ -13,11 +13,9 @@ export const dummyData: UserProfile = {
     fileSharing: "https://drive.google.com/drive/folders/12345",
     blog: "https://myblog.com",
     personal: {
-      button_style: "rounded",
       profile_image:
         "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png",
-      font_style: "Arial",
-      font_size: 14,
+      font_size: 20,
       font_family: 'Roboto',
       theme: 'light',
       description:
