@@ -235,7 +235,13 @@ export default function ProfilePage() {
       tiktok: "fab fa-tiktok",
       freelancer: "fas fa-user-tie", // Font Awesome doesn't have a Freelancer icon, so this is a placeholder.
     };
-
+if (!profileData) {
+  return (
+    <div>
+      <UserProfileSkeleton />
+    </div>
+  ); // Loading state while data is being fetched
+}
   return (
     <div className="flex flex-col justify-center items-center m-3">
       <Card
