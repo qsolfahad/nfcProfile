@@ -200,7 +200,7 @@ export default function ProfilePage() {
     {
       name: "Personal Website",
       icon: "fa-solid fa-globe", // Icon for event
-      method: profileData?.additionalInfo.event,
+      method: profileData?.additionalInfo.website_link,
     },
   ];
 
