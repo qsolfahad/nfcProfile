@@ -721,6 +721,7 @@ const getPlatformColor = (platform: string) => {
             {paymentMethods.map(
               ({ name, icon, method }) =>
                 method &&
+                method !== null &&
                 method.length > 0 && (
                   <Button
                     key={name}
@@ -759,6 +760,7 @@ const getPlatformColor = (platform: string) => {
             {ecommerceMethods.map(
               ({ name, icon, method }) =>
                 method &&
+                method !== null &&
                 method.length > 0 && (
                   <Button
                     key={name}
@@ -797,6 +799,7 @@ const getPlatformColor = (platform: string) => {
             {additionalMethods.map(
               ({ name, icon, method }) =>
                 method &&
+                method !== null &&
                 method.length > 0 && (
                   <Button
                     key={name}
