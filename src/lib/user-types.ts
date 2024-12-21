@@ -14,6 +14,7 @@ interface AdditionalInfo {
   resume: string | null;
   customLanding: string | null;
   event: string;
+  website_link:string | null;
 }
 
 interface PersonalInfo {
