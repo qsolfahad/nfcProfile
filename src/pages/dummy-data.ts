@@ -16,8 +16,8 @@ export const dummyData: UserProfile = {
       profile_image:
         "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png",
       font_size: 20,
-      font_family: 'Roboto',
-      theme: 'light',
+      font_family: "Roboto",
+      theme: "light",
       description:
         "Experienced software developer specializing in full-stack development.",
       background_image:
@@ -25,6 +25,7 @@ export const dummyData: UserProfile = {
       designation: "Software Developer",
       fullname: "Fahad",
     },
+    website_link: "",
     resume: "https://www.example.com/resume.pdf",
     customLanding: "https://www.example.com/landing",
     event: "Upcoming tech conference in 2024",

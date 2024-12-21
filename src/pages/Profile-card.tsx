@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Facebook, Instagram, Map, MessageCircle, Twitter } from 'lucide-react'
+import { Facebook, Instagram, Map, MapPinned, MessageCircle, Twitter } from 'lucide-react'
 import {
   Calendar,
   ChevronRight,
@@ -210,6 +210,11 @@ export default function ProfilePage() {
       icon: "fa-solid fa-calendar-alt", // Icon for event
       method: profileData?.additionalInfo.event,
     },
+    {
+      name: "Personal Website",
+      icon: "fa-solid fa-globe", // Icon for event
+      method: profileData?.additionalInfo.event,
+    },
   ];
 
 
@@ -242,6 +247,56 @@ if (!profileData) {
     </div>
   ); // Loading state while data is being fetched
 }
+
+
+const getPlatformColor = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case "facebook":
+        return "#1877F2"; // Facebook Blue
+      case "twitter":
+        return "#1DA1F2"; // Twitter Blue
+      case "instagram":
+        return "#C13584"; // Instagram Pink
+      case "linkedin":
+        return "#0A66C2"; // LinkedIn Blue
+      case "youtube":
+        return "#FF0000"; // YouTube Red
+      case "pinterest":
+        return "#E60023"; // Pinterest Red
+      case "snapchat":
+        return "#FFFC00"; // Snapchat Yellow
+      case "upwork":
+        return "#006ED4"; // Upwork Blue
+      case "applemusic":
+        return "#FE7423"; // Apple Music Orange
+      case "amazon":
+        return "#FF9900"; // Amazon Orange
+      case "substack":
+        return "#F37C30"; // Substack Orange
+      case "spotify":
+        return "#1DB954"; // Spotify Green
+      case "soundcloud":
+        return "#FF5500"; // SoundCloud Orange
+      case "medium":
+        return "#00AB6B"; // Medium Green
+      case "dribble":
+        return "#EA4C89"; // Dribbble Pink
+      case "fiver":
+        return "#00AEEF"; // Fiverr Blue
+      case "github":
+        return "#181717"; // GitHub Black
+      case "linkedin":
+        return "#0A66C2"; // LinkedIn Blue
+      case "behance":
+        return "#1769FF"; // Behance Blue
+      case "tiktok":
+        return "#69C9D0"; // TikTok Teal
+      case "freelancer":
+        return "#009EE3"; // Freelancer Blue
+      default:
+        return "#FFFFFF"; // Default White
+    }
+  };
   return (
     <div className="flex flex-col justify-center items-center m-3">
       <Card
@@ -263,7 +318,7 @@ if (!profileData) {
         <div className="w-fit  px-4 py-8 flex flex-col items-center justify-center space-y-6">
           {/* Profile Image */}
           <Avatar
-            className={`w-40 h-40 border-4 ${
+            className={`w-56 h-56 border-4 ${
               theme == "light" ? "border-black" : "border-white"
             }`}
           >
@@ -302,7 +357,8 @@ if (!profileData) {
                         } flex items-center justify-center`}
                       >
                         <i
-                          className={`${iconClass} text-center  text-xl w-full h-full flex items-center justify-center ${
+                          style={{ color: getPlatformColor(key) }}
+                          className={`${iconClass} text-center  text-2xl w-full h-full flex items-center justify-center ${
                             theme === "light" ? "text-black" : "text-white"
                           }`}
                         ></i>
@@ -407,11 +463,14 @@ if (!profileData) {
                     dummyData.additionalInfo.personal.font_family,
                 }}
               >
-                <Mail
-                  className={`w-8 h-8 ${
+                <i
+                  className={`fa-solid fa-envelope text-2xl
+                  ${
                     theme === "light" ? "text-black" : "text-white"
-                  }`}
-                />
+                  }
+                  `}
+                ></i>
+
                 {profileData?.contactInfo.email}
               </Button>
             )}
@@ -446,7 +505,7 @@ if (!profileData) {
                 }}
               >
                 <i
-                  className={`text-xl fa-brands fa-whatsapp ${
+                  className={`text-2xl fa-brands fa-whatsapp ${
                     theme == "light"
                       ? "text-black hover:text-white"
                       : "text-white hover:text-black"
@@ -483,7 +542,7 @@ if (!profileData) {
                     rounded-2xl`}
               >
                 <i
-                  className={`text-xl fa-solid fa-phone ${
+                  className={`text-2xl fa-solid fa-phone ${
                     theme == "light"
                       ? "text-black hover:text-white"
                       : "text-white hover:text-black"
@@ -519,7 +578,7 @@ if (!profileData) {
           } backdrop-blur-sm rounded-2xl`}
               >
                 <i
-                  className={`text-xl fa-brands fa-skype ${
+                  className={`text-2xl fa-brands fa-skype ${
                     theme === "light"
                       ? "text-black hover:text-white"
                       : "text-white hover:text-black"
@@ -553,7 +612,7 @@ if (!profileData) {
           } backdrop-blur-sm rounded-2xl`}
               >
                 <i
-                  className={`text-xl fa-solid fa-video ${
+                  className={`text-2xl fa-solid fa-video ${
                     theme === "light"
                       ? "text-black hover:text-white"
                       : "text-white hover:text-black"
@@ -596,7 +655,7 @@ if (!profileData) {
           } backdrop-blur-sm rounded-2xl`}
               >
                 <i
-                  className={`text-xl fa-brands fa-telegram ${
+                  className={`text-2xl fa-brands fa-telegram ${
                     theme === "light"
                       ? "text-black hover:text-white"
                       : "text-white hover:text-black"
@@ -633,7 +692,7 @@ if (!profileData) {
           } backdrop-blur-sm rounded-2xl`}
               >
                 <i
-                  className={`text-xl fa-solid fa-video ${
+                  className={`text-2xl fa-solid fa-video ${
                     theme === "light"
                       ? "text-black hover:text-white"
                       : "text-white hover:text-black"
@@ -670,7 +729,7 @@ if (!profileData) {
           } backdrop-blur-sm rounded-2xl`}
               >
                 <i
-                  className={`text-xl fa-regular fa-calendar ${
+                  className={`text-2xl fa-regular fa-calendar ${
                     theme === "light"
                       ? "text-black hover:text-white"
                       : "text-white hover:text-black"
@@ -710,7 +769,7 @@ if (!profileData) {
                   >
                     <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
                       <i
-                        className={`${icon} text-xl ${
+                        className={`${icon} text-2xl ${
                           theme === "light" ? "text-black" : "text-white"
                         }`}
                       />
@@ -750,7 +809,7 @@ if (!profileData) {
                   >
                     <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
                       <i
-                        className={`${icon} text-xl ${
+                        className={`${icon} text-2xl ${
                           theme === "light" ? "text-black" : "text-white"
                         }`}
                       />
@@ -786,7 +845,7 @@ if (!profileData) {
                         : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
                     } backdrop-blur-sm rounded-2xl flex justify-center items-center`}
                   >
-                    <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
+                    <div className="w-8 h-8 text-2xl capitalize mr-2 flex justify-center items-center">
                       <i
                         className={`${icon} text-xl ${
                           theme === "light" ? "text-black" : "text-white"
@@ -802,7 +861,7 @@ if (!profileData) {
           {/* Footer */}
           <div className="text-center text-white/80 mt-8 space-y-2">
             <h2 className="font-semibold text-center flex justify-center items-center">
-              <Map
+              <MapPinned
                 className={`w-8 h-8 ${
                   theme == "light" ? "text-black" : "text-white"
                 }`}
