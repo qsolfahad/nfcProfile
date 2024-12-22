@@ -1,7 +1,15 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Facebook, Instagram, Map, MapPinned, MessageCircle, Twitter } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  Facebook,
+  Instagram,
+  Map,
+  MapPinned,
+  MessageCircle,
+  Pin,
+  Twitter,
+} from "lucide-react";
 import {
   Calendar,
   ChevronRight,
@@ -32,72 +40,71 @@ import { useNavigate } from "react-router-dom";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
 function base64ToImage(base64String: string): HTMLImageElement {
-    const img = new Image();
-    img.src = `data:image/png;base64,${base64String}`; // Set the src to the base64 string
-    return img; // Return the Image element
-  }
-
+  const img = new Image();
+  img.src = `data:image/png;base64,${base64String}`; // Set the src to the base64 string
+  return img; // Return the Image element
+}
 
 export default function ProfilePage() {
-    const { toast } = useToast();
-
+  const { toast } = useToast();
 
   const [isCopied, setIsCopied] = useState(false);
 
-  
-    const { profileId } = useParams<{ profileId: string }>();
-    const [profileData, setProfileData] = useState<UserProfile | null>(null);
-    const [profileImage, setProfileImage] = useState<HTMLImageElement | null>(
-      null
-    );
-    const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
-    const [theme,setTheme]=useState<"light"|"dark">("light")
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const { profileId } = useParams<{ profileId: string }>();
+  const [profileData, setProfileData] = useState<UserProfile | null>(null);
+  const [profileImage, setProfileImage] = useState<HTMLImageElement | null>(
+    null
+  );
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-     useEffect(() => {
-        if (profileId) {
-          const profileRef = doc(db, "userInfo", profileId);
-          getDoc(profileRef)
-            .then((docSnapshot) => {
-              if (docSnapshot.exists()) {
-                const data = docSnapshot.data() as UserProfile;
-                setProfileData(data);
-    
-                if (data.additionalInfo.personal.background_image) {
-                  setBgImage(
-                    base64ToImage(data.additionalInfo.personal.background_image)
-                  );
-                }
-                if (data.additionalInfo.personal.profile_image) {
-                  setProfileImage(
-                    base64ToImage(data.additionalInfo.personal.profile_image)
-                  );
-                }
-                setTheme(data.additionalInfo.personal.theme);
-              } else {
-                setProfileData(dummyData);
-              }
-            })
-            .catch(() => setProfileData(dummyData));
-        }
-      }, [profileId]);
+  useEffect(() => {
+    if (profileId) {
+      const profileRef = doc(db, "userInfo", profileId);
+      getDoc(profileRef)
+        .then((docSnapshot) => {
+          if (docSnapshot.exists()) {
+            const data = docSnapshot.data() as UserProfile;
+            setProfileData(data);
 
- const handleImageClick = () => {
-   setIsModalOpen(true);
- };
+            if (data.additionalInfo.personal.background_image) {
+              setBgImage(
+                base64ToImage(data.additionalInfo.personal.background_image)
+              );
+            }
+            if (data.additionalInfo.personal.profile_image) {
+              setProfileImage(
+                base64ToImage(data.additionalInfo.personal.profile_image)
+              );
+            }
+            setTheme(data.additionalInfo.personal.theme);
+          } else {
+            setProfileData(dummyData);
+          }
+        })
+        .catch(() => setProfileData(dummyData));
+    }
+  }, [profileId]);
 
- const closeModal = () => {
-   setIsModalOpen(false);
- };
+  const handleImageClick = () => {
+    setIsModalOpen(true);
+  };
 
-      const handleCopy = () => {
-    navigator.clipboard.writeText(`${profileData?.contactInfo.phoneNumber}`).then(() => {
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-      toast({
-        title:"Copied Successfully",
-      }) // Reset after 2 seconds
-    });
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(`${profileData?.contactInfo.phoneNumber}`)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+        toast({
+          title: "Copied Successfully",
+        }); // Reset after 2 seconds
+      });
   };
 
   const paymentMethods = [
@@ -203,40 +210,59 @@ export default function ProfilePage() {
       method: profileData?.additionalInfo.website_link,
     },
   ];
+  const socialMediaOrder: (keyof SocialMediaInfo)[] = [
+    "facebook",
+    "instagram",
+    "twitter",
+    "linkedin",
+    "tiktok",
+    "youtube",
+    "pinterest",
+    "snapchat",
+    "github",
+    "behance",
+    "dribble",
+    "medium",
+    "substack",
+    "fiver",
+    "upwork",
+    "freelancer",
+    "spotify",
+    "soundCloud",
+    "appleMusic",
+    "amazon"
+  ];
+  const socialMediaIcons: Record<keyof SocialMediaInfo, string> = {
+    facebook: "fab fa-facebook",
+    instagram: "fab fa-instagram",
+    twitter: "fab fa-twitter",
+    linkedin: "fab fa-linkedin",
+    tiktok: "fab fa-tiktok",
+    youtube: "fab fa-youtube",
+    pinterest: "fab fa-pinterest",
+    snapchat: "fab fa-snapchat",
+    github: "fab fa-github",
+    behance: "fab fa-behance",
+    dribble: "fab fa-dribbble",
+    medium: "fab fa-medium",
+    substack: "fab fa-stack-overflow",
+    fiver: "fa-solid fa-link",
+    upwork: "fab fa-upwork",
+    freelancer: "fas fa-user-tie",
+    spotify: "fab fa-spotify",
+    soundCloud: "fab fa-soundcloud",
+    appleMusic: "fab fa-apple",
+    amazon: "fab fa-amazon"
+  }
+  if (!profileData) {
+    return (
+      <div>
+        <UserProfileSkeleton />
+      </div>
+    ); // Loading state while data is being fetched
+  }
 
-
-    const socialMediaIcons: Record<keyof SocialMediaInfo, string> = {
-      pinterest: "fab fa-pinterest",
-      youtube: "fab fa-youtube",
-      snapchat: "fab fa-snapchat",
-      twitter: "fab fa-twitter",
-      upwork: "fab fa-upwork",
-      appleMusic: "fab fa-apple",
-      amazon: "fab fa-amazon",
-      facebook: "fab fa-facebook",
-      substack: "fab fa-stack-overflow",
-      instagram: "fab fa-instagram",
-      spotify: "fab fa-spotify",
-      soundCloud: "fab fa-soundcloud",
-      medium: "fab fa-medium",
-      dribble: "fab fa-dribbble",
-      fiver: "fa-solid fa-link",
-      github: "fab fa-github",
-      linkedin: "fab fa-linkedin",
-      behance: "fab fa-behance",
-      tiktok: "fab fa-tiktok",
-      freelancer: "fas fa-user-tie", // Font Awesome doesn't have a Freelancer icon, so this is a placeholder.
-    };
-if (!profileData) {
-  return (
-    <div>
-      <UserProfileSkeleton />
-    </div>
-  ); // Loading state while data is being fetched
-}
-
-
-const getPlatformColor = (platform: string) => {
+  const getPlatformColor = (platform: string) => {
     switch (platform.toLowerCase()) {
       case "facebook":
         return "#1877F2"; // Facebook Blue
@@ -285,29 +311,29 @@ const getPlatformColor = (platform: string) => {
     }
   };
   return (
-    <div className="flex flex-col justify-center items-center m-3">
-      <Card
-        style={{
-          backgroundImage: `url(${
-            bgImage
-              ? bgImage.src
-              : dummyData.additionalInfo.personal.background_image
+    <div
+      style={{
+        backgroundImage: `url(${bgImage
+          ? bgImage.src
+          : dummyData.additionalInfo.personal.background_image
           })`,
-          backgroundSize: "cover", // Ensures the image fits within the card without stretching
-          backgroundPosition: "center", // Centers the image
-          backgroundAttachment: "fixed",
-          backgroundRepeat: "no-repeat", // Ensures no repeat of background image
-          backgroundColor: "#2C5364", // Background color beneath the image
-          backdropFilter: "blur(8px)", // Increases blur intensity for the content
-        }}
-        className="border border-white rounded-lg shadow-md"
-      >
+        backgroundSize: "cover", // Ensures the image fits within the card without stretching
+        backgroundPosition: "center", // Centers the image
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat", // Ensures no repeat of background image
+        backgroundColor: "#2C5364", // Background color beneath the image
+        backdropFilter: "blur(8px)", // Increases blur intensity for the content
+        margin: "auto",
+        minHeight: "100vh",
+      }}
+      className="flex flex-col justify-center items-center overflow-y-auto"
+    >
+      <Card className=" bg-transparent border-none">
         <div className="w-fit  px-4 py-8 flex flex-col items-center justify-center space-y-6">
           {/* Profile Image */}
           <Avatar
-            className={`w-56 h-56 border-4 ${
-              theme == "light" ? "border-black" : "border-white"
-            }`}
+            className={`w-56 h-56 border-4 ${theme == "dark" ? "border-black" : "border-white"
+              }`}
           >
             <AvatarImage
               src={
@@ -321,63 +347,72 @@ const getPlatformColor = (platform: string) => {
           </Avatar>
 
           {/* Social Media Icons */}
-          <div className="overflow-x-auto scrollbar-hide w-[350px]">
-            <div className="flex space-x-6">
-              {Object.entries(profileData?.socialMediaInfo || {}).map(
-                ([key, link]) => {
-                  if (!link) return null;
 
-                  const iconClass =
-                    socialMediaIcons[key as keyof SocialMediaInfo];
 
-                  return (
-                    <a
-                      key={key}
-                      href={link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white flex justify-center items-center hover:text-gray-300"
-                    >
-                      <div
-                        className={`w-12 h-12 rounded-full border-2 ${
-                          theme === "light" ? "border-black" : "border-white"
+          <div
+            className={`overflow-x-auto scrollbar-hide w-[480px] flex ${Object.entries(profileData?.socialMediaInfo || {}).filter(
+              ([, link]) => link !== null
+            ).length <= 4
+              ? "justify-center"
+              : "justify-start"
+              }`}
+          >
+            <div className="flex space-x-6 items-center">
+              {socialMediaOrder.map((key) => {
+                console.log(key);
+                const link = profileData?.socialMediaInfo?.[key];
+
+                if (link === null || link === undefined) return null;
+
+                const iconClass = socialMediaIcons[key];
+
+                return (
+                  <a
+                    key={key}
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white flex justify-center items-center hover:text-gray-300"
+                  >
+                    <div
+                      className={`w-12 h-12 rounded-full border-2 ${theme === "dark" ? "border-black" : "border-white"
                         } flex items-center justify-center`}
-                      >
-                        <i
-                          style={{ color: getPlatformColor(key) }}
-                          className={`${iconClass} text-center  text-2xl w-full h-full flex items-center justify-center ${
-                            theme === "light" ? "text-black" : "text-white"
+                    >
+                      <i
+                        style={{
+                          color: `${theme === "dark" ? "black" : "white"}`,
+                        }}
+                        className={`${iconClass} text-center text-2xl w-full h-full flex items-center justify-center ${theme === "dark" ? "text-black" : "text-white"
                           }`}
-                        ></i>
-                      </div>
-                    </a>
-                  );
-                }
-              )}
+                      ></i>
+                    </div>
+                  </a>
+                );
+              })}
             </div>
           </div>
 
+
+
+
           {/* Bio Card */}
           <Card
-            className={`w-full max-w-md
-            ${
-              theme == "light"
+            className={`w-full max-w-md 
+            ${theme == "dark"
                 ? "border-black bg-white/50"
                 : "border-white bg-black/50"
-            }
-             border  backdrop-blur-sm p-4 rounded-3xl 
+              }
+             border-2  p-4 rounded-3xl bg-transparent
              
              `}
           >
             <h1
-              className={` ${
-                theme == "light" ? "text-black" : "text-white"
-              } text-2xl font-bold text-center mb-1`}
+              className={` ${theme == "dark" ? "text-black" : "text-white"
+                } text-2xl font-bold text-center `}
               style={{
-                fontSize: `${
-                  profileData?.additionalInfo.personal.font_size ||
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
                   dummyData.additionalInfo.personal.font_size
-                }px`,
+                  }px`,
                 fontFamily:
                   profileData?.additionalInfo.personal.font_family ||
                   dummyData.additionalInfo.personal.font_family,
@@ -386,14 +421,13 @@ const getPlatformColor = (platform: string) => {
               {profileData?.additionalInfo.personal.fullname || "Name"}
             </h1>
             <h1
-              className={` text-2xl font-bold text-center mb-2
-              ${theme == "light" ? "text-black" : "text-white"}
+              className={` text-2xl font-bold text-center 
+              ${theme == "dark" ? "text-black" : "text-white"}
               `}
               style={{
-                fontSize: `${
-                  profileData?.additionalInfo.personal.font_size ||
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
                   dummyData.additionalInfo.personal.font_size
-                }px`,
+                  }px`,
                 fontFamily:
                   profileData?.additionalInfo.personal.font_family ||
                   dummyData.additionalInfo.personal.font_family,
@@ -403,15 +437,13 @@ const getPlatformColor = (platform: string) => {
                 "Designation"}
             </h1>
             <p
-              className={`${
-                theme == "light" ? "text-black/90" : "text-white/90"
-              } 
+              className={`${theme == "dark" ? "text-black/90" : "text-white/90"
+                } 
             text-center`}
               style={{
-                fontSize: `${
-                  profileData?.additionalInfo.personal.font_size ||
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
                   dummyData.additionalInfo.personal.font_size
-                }px`,
+                  }px`,
                 fontFamily:
                   profileData?.additionalInfo.personal.font_family ||
                   dummyData.additionalInfo.personal.font_family,
@@ -423,7 +455,7 @@ const getPlatformColor = (platform: string) => {
           </Card>
 
           {/* Action Buttons */}
-          <div className="w-full max-w-md space-y-4 h-52 overflow-y-auto scrollbar-hide">
+          <div className="w-full max-w-md space-y-4 h-52 scrollbar-hide">
             {profileData?.contactInfo.email && (
               <Button
                 variant="outline"
@@ -433,18 +465,16 @@ const getPlatformColor = (platform: string) => {
                     "_blank"
                   )
                 }
-                className={`w-full h-14 
-    ${
-      theme === "light"
-        ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-        : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-    }
-    backdrop-blur-sm rounded-2xl`}
+                className={`w-full h-14
+    ${theme === "dark"
+                    ? "text-black bg-white/50 border-black border-2 hover:bg-black/10 hover:text-white"
+                    : "text-white bg-black/50 border-white border-2 hover:bg-white/10 hover:text-black"
+                  }
+    rounded-2xl bg-transparent`}
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
@@ -452,11 +482,12 @@ const getPlatformColor = (platform: string) => {
               >
                 <i
                   className={`fa-solid fa-envelope text-2xl
-                  ${theme === "light" ? "text-black" : "text-white"}
+                  ${theme === "dark" ? "text-black" : "text-white"}
                   `}
                 ></i>
-
-                {profileData?.contactInfo.email}
+                <span className="mx-auto">
+                  {profileData?.contactInfo.email}
+                </span>
               </Button>
             )}
 
@@ -471,32 +502,31 @@ const getPlatformColor = (platform: string) => {
                 }}
                 className={`w-full h-14
                 
-                ${
-                  theme == "light"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-                }
-                   backdrop-blur-sm 
+                ${theme == "dark"
+                    ? "text-black bg-white/50 border-black border-2 hover:bg-black/10 hover:text-white "
+                    : "text-white bg-black/50 border-white border-2 hover:bg-white/10 hover:text-black"
+                  }
                    
-                    rounded-2xl`}
+                   
+                    rounded-2xl bg-transparent`}
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
                 }}
               >
                 <i
-                  className={`text-2xl fa-brands fa-whatsapp ${
-                    theme == "light"
-                      ? "text-black hover:text-white"
-                      : "text-white hover:text-black"
-                  }`}
+                  className={`text-2xl fa-brands fa-whatsapp ${theme == "dark"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-black"
+                    }`}
                 />
-                {profileData?.contactInfo.whatsapp}
+                <span className="mx-auto">
+                  {profileData?.contactInfo.whatsapp}
+                </span>
               </Button>
             )}
 
@@ -504,10 +534,9 @@ const getPlatformColor = (platform: string) => {
               <Button
                 variant="outline"
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
@@ -516,21 +545,21 @@ const getPlatformColor = (platform: string) => {
                   handleCopy();
                 }}
                 className={`w-full h-14 
-    ${
-      theme === "light"
-        ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-        : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-    }
-    backdrop-blur-sm rounded-2xl`}
+    ${theme === "dark"
+                    ? "text-black bg-white/50 border-black bg-transparent hover:bg-black/10 hover:text-white"
+                    : "text-white bg-black/50 border-white bg-transparent hover:bg-white/10 hover:text-black"
+                  }
+    rounded-2xl border-2`}
               >
                 <i
-                  className={`text-2xl fa-solid fa-phone ${
-                    theme == "light"
-                      ? "text-black hover:text-white"
-                      : "text-white hover:text-black"
-                  }`}
+                  className={`text-2xl fa-solid fa-phone ${theme == "dark"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-black"
+                    }`}
                 />
-                {profileData?.contactInfo.phoneNumber}
+                <span className="mx-auto">
+                  {profileData?.contactInfo.phoneNumber}
+                </span>
               </Button>
             )}
 
@@ -538,10 +567,9 @@ const getPlatformColor = (platform: string) => {
               <Button
                 variant="outline"
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
@@ -550,20 +578,18 @@ const getPlatformColor = (platform: string) => {
                   window.open(`${profileData?.contactInfo.skype}`, "_blank");
                 }}
                 className={`w-full h-14
-          ${
-            theme === "light"
-              ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-              : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-          } backdrop-blur-sm rounded-2xl`}
+          ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                  } rounded-2xl bg-transparent`}
               >
                 <i
-                  className={`text-2xl fa-brands fa-skype ${
-                    theme === "light"
-                      ? "text-black hover:text-white"
-                      : "text-white hover:text-black"
-                  }`}
+                  className={`text-2xl fa-brands fa-skype ${theme === "dark"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-black"
+                    }`}
                 />
-                Skype
+                <span className="mx-auto">Skype</span>
               </Button>
             )}
 
@@ -572,10 +598,9 @@ const getPlatformColor = (platform: string) => {
               <Button
                 variant="outline"
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
@@ -584,20 +609,18 @@ const getPlatformColor = (platform: string) => {
                   window.open(profileData?.contactInfo.zoom, "_blank");
                 }}
                 className={`w-full h-14
-          ${
-            theme === "light"
-              ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-              : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-          } backdrop-blur-sm rounded-2xl`}
+          ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                  } rounded-2xl bg-transparent`}
               >
                 <i
-                  className={`text-2xl fa-solid fa-video ${
-                    theme === "light"
-                      ? "text-black hover:text-white"
-                      : "text-white hover:text-black"
-                  }`}
+                  className={`text-2xl fa-solid fa-video ${theme === "dark"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-black"
+                    }`}
                 />
-                Zoom
+                <span className="mx-auto">Zoom</span>
               </Button>
             )}
 
@@ -606,41 +629,37 @@ const getPlatformColor = (platform: string) => {
               <Button
                 variant="outline"
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
                 }}
                 onClick={() => {
                   window.open(
-                    `${
-                      profileData.contactInfo.telegram.startsWith(
-                        "https://t.me/"
-                      )
-                        ? profileData.contactInfo.telegram
-                        : "https://t.me/" + profileData.contactInfo.telegram
+                    `${profileData.contactInfo.telegram.startsWith(
+                      "https://t.me/"
+                    )
+                      ? profileData.contactInfo.telegram
+                      : "https://t.me/" + profileData.contactInfo.telegram
                     }`,
                     "_blank"
                   );
                 }}
                 className={`w-full h-14
-          ${
-            theme === "light"
-              ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-              : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-          } backdrop-blur-sm rounded-2xl`}
+          ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                  } rounded-2xl bg-transparent`}
               >
                 <i
-                  className={`text-2xl fa-brands fa-telegram ${
-                    theme === "light"
-                      ? "text-black hover:text-white"
-                      : "text-white hover:text-black"
-                  }`}
+                  className={`text-2xl fa-brands fa-telegram ${theme === "dark"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-black"
+                    }`}
                 />
-                Telegram
+                <span className="mx-auto">Telegram</span>
               </Button>
             )}
 
@@ -649,10 +668,9 @@ const getPlatformColor = (platform: string) => {
               <Button
                 variant="outline"
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
@@ -664,20 +682,18 @@ const getPlatformColor = (platform: string) => {
                   );
                 }}
                 className={`w-full h-14
-          ${
-            theme === "light"
-              ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-              : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-          } backdrop-blur-sm rounded-2xl`}
+          ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                  } rounded-2xl bg-transparent`}
               >
                 <i
-                  className={`text-2xl fa-solid fa-video ${
-                    theme === "light"
-                      ? "text-black hover:text-white"
-                      : "text-white hover:text-black"
-                  }`}
+                  className={`text-2xl fa-solid fa-video ${theme === "dark"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-black"
+                    }`}
                 />
-                Google Meet
+                <span className="mx-auto">Google Meet</span>
               </Button>
             )}
 
@@ -686,10 +702,9 @@ const getPlatformColor = (platform: string) => {
               <Button
                 variant="outline"
                 style={{
-                  fontSize: `${
-                    profileData?.additionalInfo.personal.font_size ||
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
                     dummyData.additionalInfo.personal.font_size
-                  }px`,
+                    }px`,
                   fontFamily:
                     profileData?.additionalInfo.personal.font_family ||
                     dummyData.additionalInfo.personal.font_family,
@@ -701,20 +716,18 @@ const getPlatformColor = (platform: string) => {
                   );
                 }}
                 className={`w-full h-14
-          ${
-            theme === "light"
-              ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-              : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-          } backdrop-blur-sm rounded-2xl`}
+          ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                  } rounded-2xl bg-transparent`}
               >
                 <i
-                  className={`text-2xl fa-regular fa-calendar ${
-                    theme === "light"
-                      ? "text-black hover:text-white"
-                      : "text-white hover:text-black"
-                  }`}
+                  className={`text-2xl fa-regular fa-calendar ${theme === "dark"
+                    ? "text-black hover:text-white"
+                    : "text-white hover:text-black"
+                    }`}
                 />
-                Calendar
+                <span className="mx-auto">Calendar</span>
               </Button>
             )}
 
@@ -727,10 +740,9 @@ const getPlatformColor = (platform: string) => {
                     key={name}
                     variant="outline"
                     style={{
-                      fontSize: `${
-                        profileData?.additionalInfo.personal.font_size ||
+                      fontSize: `${profileData?.additionalInfo.personal.font_size ||
                         dummyData.additionalInfo.personal.font_size
-                      }px`,
+                        }px`,
                       fontFamily:
                         profileData?.additionalInfo.personal.font_family ||
                         dummyData.additionalInfo.personal.font_family,
@@ -739,20 +751,18 @@ const getPlatformColor = (platform: string) => {
                       const url = `${method}`;
                       window.open(url, "_blank");
                     }}
-                    className={`w-full h-14 ${
-                      theme === "light"
-                        ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                        : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-                    } backdrop-blur-sm rounded-2xl flex justify-center items-center`}
+                    className={`w-full h-14 ${theme === "dark"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                      : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                      } rounded-2xl flex justify-center items-center bg-transparent`}
                   >
                     <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
                       <i
-                        className={`${icon} text-2xl ${
-                          theme === "light" ? "text-black" : "text-white"
-                        }`}
+                        className={`${icon} text-2xl ${theme === "dark" ? "text-black" : "text-white"
+                          }`}
                       />
                     </div>
-                    {name}
+                    <span className="mx-auto">{name}</span>
                   </Button>
                 )
             )}
@@ -766,10 +776,9 @@ const getPlatformColor = (platform: string) => {
                     key={name}
                     variant="outline"
                     style={{
-                      fontSize: `${
-                        profileData?.additionalInfo.personal.font_size ||
+                      fontSize: `${profileData?.additionalInfo.personal.font_size ||
                         dummyData.additionalInfo.personal.font_size
-                      }px`,
+                        }px`,
                       fontFamily:
                         profileData?.additionalInfo.personal.font_family ||
                         dummyData.additionalInfo.personal.font_family,
@@ -778,20 +787,18 @@ const getPlatformColor = (platform: string) => {
                       const url = `${method}`;
                       window.open(url, "_blank");
                     }}
-                    className={`w-full h-14 ${
-                      theme === "light"
-                        ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                        : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-                    } backdrop-blur-sm rounded-2xl flex justify-center items-center`}
+                    className={`w-full h-14 ${theme === "dark"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                      : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                      } rounded-2xl flex justify-center items-center bg-transparent`}
                   >
                     <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
                       <i
-                        className={`${icon} text-2xl ${
-                          theme === "light" ? "text-black" : "text-white"
-                        }`}
+                        className={`${icon} text-2xl ${theme === "dark" ? "text-black" : "text-white"
+                          }`}
                       />
                     </div>
-                    {name}
+                    <span className="mx-auto">{name}</span>
                   </Button>
                 )
             )}
@@ -809,62 +816,70 @@ const getPlatformColor = (platform: string) => {
                       window.open(url, "_blank");
                     }}
                     style={{
-                      fontSize: `${
-                        profileData?.additionalInfo.personal.font_size ||
+                      fontSize: `${profileData?.additionalInfo.personal.font_size ||
                         dummyData.additionalInfo.personal.font_size
-                      }px`,
+                        }px`,
                       fontFamily:
                         profileData?.additionalInfo.personal.font_family ||
                         dummyData.additionalInfo.personal.font_family,
                     }}
-                    className={`w-full h-14 ${
-                      theme === "light"
-                        ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                        : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
-                    } backdrop-blur-sm rounded-2xl flex justify-center items-center`}
+                    className={`w-full h-14 ${theme === "dark"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
+                      : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                      } rounded-2xl flex justify-center items-center bg-transparent`}
                   >
                     <div className="w-8 h-8 text-2xl capitalize mr-2 flex justify-center items-center">
                       <i
-                        className={`${icon} text-xl ${
-                          theme === "light" ? "text-black" : "text-white"
-                        }`}
+                        className={`${icon} text-xl ${theme === "dark" ? "text-black" : "text-white"
+                          }`}
                       />
                     </div>
-                    {name}
+                    <span className="mx-auto">{name}</span>
                   </Button>
                 )
             )}
+            <div className="text-center text-white/80 mt-8 space-y-2">
+              <h2 className="font-semibold text-center flex justify-center items-center">
+                <svg
+                  className={`w-8 h-8`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke={`${theme === "dark" ? "black" : "white"}`}
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  width="24"
+                  height="24"
+                  stroke-width="2"
+                >
+                  <path d="M12 2a7 7 0 0 1 7 7c0 4.418-7 13-7 13s-7-8.582-7-13a7 7 0 0 1 7-7z"></path>
+                  <circle cx="12" cy="9" r="2.5"></circle>
+                </svg>
+              </h2>
+
+
+              <p
+                style={{
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                    dummyData.additionalInfo.personal.font_size
+                    }px`,
+                  fontFamily:
+                    profileData?.additionalInfo.personal.font_family ||
+                    dummyData.additionalInfo.personal.font_family,
+                }}
+                onClick={() => {
+                  window.open(`${profileData?.contactInfo.maplink}`, "_blank");
+                }}
+                className={`text-sm
+              ${theme == "dark" ? "text-black" : "text-white"}
+              max-w-md`}
+              >
+                {profileData?.contactInfo.physicalAddress}
+              </p>
+            </div>
           </div>
 
           {/* Footer */}
-          <div className="text-center text-white/80 mt-8 space-y-2">
-            <h2 className="font-semibold text-center flex justify-center items-center">
-              <MapPinned
-                className={`w-8 h-8 ${
-                  theme == "light" ? "text-black" : "text-white"
-                }`}
-              />
-            </h2>
-            <p
-              style={{
-                fontSize: `${
-                  profileData?.additionalInfo.personal.font_size ||
-                  dummyData.additionalInfo.personal.font_size
-                }px`,
-                fontFamily:
-                  profileData?.additionalInfo.personal.font_family ||
-                  dummyData.additionalInfo.personal.font_family,
-              }}
-              onClick={() => {
-                window.open(`${profileData?.contactInfo.maplink}`, "_blank");
-              }}
-              className={`text-sm
-              ${theme == "light" ? "text-black" : "text-white"}
-              max-w-md`}
-            >
-              {profileData?.contactInfo.physicalAddress}
-            </p>
-          </div>
         </div>
       </Card>
       {isModalOpen && (
@@ -895,4 +910,3 @@ const getPlatformColor = (platform: string) => {
     </div>
   );
 }
-
