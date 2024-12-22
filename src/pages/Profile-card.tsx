@@ -350,7 +350,7 @@ export default function ProfilePage() {
 
 
           <div
-            className={`overflow-x-auto scrollbar-hide w-[480px] flex ${Object.entries(profileData?.socialMediaInfo || {}).filter(
+            className={`overflow-x-auto scrollbar-hide w-[280px] flex ${Object.entries(profileData?.socialMediaInfo || {}).filter(
               ([, link]) => link !== null
             ).length <= 4
               ? "justify-center"
@@ -458,8 +458,8 @@ export default function ProfilePage() {
                 }
                 className={`w-full h-14
     ${theme === "dark"
-                    ? "text-black bg-white/50 border-black border-2 hover:bg-black/10 hover:text-white"
-                    : "text-white bg-black/50 border-white border-2 hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black border-2 hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white border-2 hover:bg-white/10 "
                   }
     rounded-2xl bg-transparent`}
                 style={{
@@ -494,8 +494,8 @@ export default function ProfilePage() {
                 className={`w-full h-14
                 
                 ${theme == "dark"
-                    ? "text-black bg-white/50 border-black border-2 hover:bg-black/10 hover:text-white "
-                    : "text-white bg-black/50 border-white border-2 hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black border-2 hover:bg-black/10  "
+                    : "text-white bg-black/50 border-white border-2 hover:bg-white/10 "
                   }
                    
                    
@@ -511,8 +511,8 @@ export default function ProfilePage() {
               >
                 <i
                   className={`text-2xl fa-brands fa-whatsapp ${theme == "dark"
-                    ? "text-black hover:text-white"
-                    : "text-white hover:text-black"
+                    ? "text-black "
+                    : "text-white "
                     }`}
                 />
                 <span className="mx-auto">
@@ -537,15 +537,15 @@ export default function ProfilePage() {
                 }}
                 className={`w-full h-14 
     ${theme === "dark"
-                    ? "text-black bg-white/50 border-black bg-transparent hover:bg-black/10 hover:text-white"
-                    : "text-white bg-black/50 border-white bg-transparent hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black bg-transparent hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white bg-transparent hover:bg-white/10 "
                   }
     rounded-2xl border-2`}
               >
                 <i
                   className={`text-2xl fa-solid fa-phone ${theme == "dark"
-                    ? "text-black hover:text-white"
-                    : "text-white hover:text-black"
+                    ? "text-black "
+                    : "text-white "
                     }`}
                 />
                 <span className="mx-auto">
@@ -570,14 +570,14 @@ export default function ProfilePage() {
                 }}
                 className={`w-full h-14
           ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white hover:bg-white/10 "
                   } rounded-2xl bg-transparent`}
               >
                 <i
                   className={`text-2xl fa-brands fa-skype ${theme === "dark"
-                    ? "text-black hover:text-white"
-                    : "text-white hover:text-black"
+                    ? "text-black "
+                    : "text-white "
                     }`}
                 />
                 <span className="mx-auto">Skype</span>
@@ -601,14 +601,14 @@ export default function ProfilePage() {
                 }}
                 className={`w-full h-14
           ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white hover:bg-white/10 "
                   } rounded-2xl bg-transparent`}
               >
                 <i
                   className={`text-2xl fa-solid fa-video ${theme === "dark"
-                    ? "text-black hover:text-white"
-                    : "text-white hover:text-black"
+                    ? "text-black "
+                    : "text-white "
                     }`}
                 />
                 <span className="mx-auto">Zoom</span>
@@ -640,14 +640,14 @@ export default function ProfilePage() {
                 }}
                 className={`w-full h-14
           ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white hover:bg-white/10 "
                   } rounded-2xl bg-transparent`}
               >
                 <i
                   className={`text-2xl fa-brands fa-telegram ${theme === "dark"
-                    ? "text-black hover:text-white"
-                    : "text-white hover:text-black"
+                    ? "text-black "
+                    : "text-white "
                     }`}
                 />
                 <span className="mx-auto">Telegram</span>
@@ -674,14 +674,14 @@ export default function ProfilePage() {
                 }}
                 className={`w-full h-14
           ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white hover:bg-white/10 "
                   } rounded-2xl bg-transparent`}
               >
                 <i
                   className={`text-2xl fa-solid fa-video ${theme === "dark"
-                    ? "text-black hover:text-white"
-                    : "text-white hover:text-black"
+                    ? "text-black "
+                    : "text-white "
                     }`}
                 />
                 <span className="mx-auto">Google Meet</span>
@@ -708,14 +708,14 @@ export default function ProfilePage() {
                 }}
                 className={`w-full h-14
           ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                    : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white hover:bg-white/10 "
                   } rounded-2xl bg-transparent`}
               >
                 <i
                   className={`text-2xl fa-regular fa-calendar ${theme === "dark"
-                    ? "text-black hover:text-white"
-                    : "text-white hover:text-black"
+                    ? "text-black "
+                    : "text-white "
                     }`}
                 />
                 <span className="mx-auto">Calendar</span>
@@ -743,8 +743,8 @@ export default function ProfilePage() {
                       window.open(url, "_blank");
                     }}
                     className={`w-full h-14 ${theme === "dark"
-                      ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                      : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                      : "text-white bg-black/50 border-white hover:bg-white/10 "
                       } rounded-2xl flex justify-center items-center bg-transparent`}
                   >
                     <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
@@ -779,8 +779,8 @@ export default function ProfilePage() {
                       window.open(url, "_blank");
                     }}
                     className={`w-full h-14 ${theme === "dark"
-                      ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                      : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                      : "text-white bg-black/50 border-white hover:bg-white/10 "
                       } rounded-2xl flex justify-center items-center bg-transparent`}
                   >
                     <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
@@ -815,8 +815,8 @@ export default function ProfilePage() {
                         dummyData.additionalInfo.personal.font_family,
                     }}
                     className={`w-full h-14 ${theme === "dark"
-                      ? "text-black bg-white/50 border-black hover:bg-black/10 hover:text-white"
-                      : "text-white bg-black/50 border-white hover:bg-white/10 hover:text-black"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                      : "text-white bg-black/50 border-white hover:bg-white/10 "
                       } rounded-2xl flex justify-center items-center bg-transparent`}
                   >
                     <div className="w-8 h-8 text-2xl capitalize mr-2 flex justify-center items-center">
