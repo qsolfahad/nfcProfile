@@ -397,22 +397,18 @@ export default function ProfilePage() {
 
           {/* Bio Card */}
           <Card
-            className={`w-full max-w-md 
-            ${theme == "dark"
-                ? "border-black bg-white/50"
-                : "border-white bg-black/50"
-              }
-             border-2  p-4 rounded-3xl bg-transparent
-             
-             `}
+            className={`w-full max-w-md
+    ${theme == "dark" ? "border-black bg-white/50" : "border-white bg-black/50"}
+    border-2 p-4 rounded-3xl bg-transparent
+    sm:max-w-sm sm:p-3`}
           >
             <h1
-              className={` ${theme == "dark" ? "text-black" : "text-white"
-                } text-2xl font-bold text-center `}
+              className={`text-2xl font-bold text-center
+      ${theme == "dark" ? "text-black" : "text-white"}
+      sm:text-xl`}
               style={{
                 fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                  dummyData.additionalInfo.personal.font_size
-                  }px`,
+                  dummyData.additionalInfo.personal.font_size}px`,
                 fontFamily:
                   profileData?.additionalInfo.personal.font_family ||
                   dummyData.additionalInfo.personal.font_family,
@@ -421,41 +417,36 @@ export default function ProfilePage() {
               {profileData?.additionalInfo.personal.fullname || "Name"}
             </h1>
             <h1
-              className={` text-2xl font-bold text-center 
-              ${theme == "dark" ? "text-black" : "text-white"}
-              `}
+              className={`text-2xl font-bold text-center
+      ${theme == "dark" ? "text-black" : "text-white"}
+      sm:text-xl`}
               style={{
                 fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                  dummyData.additionalInfo.personal.font_size
-                  }px`,
+                  dummyData.additionalInfo.personal.font_size}px`,
                 fontFamily:
                   profileData?.additionalInfo.personal.font_family ||
                   dummyData.additionalInfo.personal.font_family,
               }}
             >
-              {profileData?.additionalInfo.personal.designation ||
-                "Designation"}
+              {profileData?.additionalInfo.personal.designation || "Designation"}
             </h1>
             <p
-              className={`${theme == "dark" ? "text-black/90" : "text-white/90"
-                } 
-            text-center`}
+              className={`${theme == "dark" ? "text-black/90" : "text-white/90"}
+      text-center sm:text-base`}
               style={{
                 fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                  dummyData.additionalInfo.personal.font_size
-                  }px`,
+                  dummyData.additionalInfo.personal.font_size}px`,
                 fontFamily:
                   profileData?.additionalInfo.personal.font_family ||
                   dummyData.additionalInfo.personal.font_family,
               }}
             >
-              {profileData?.additionalInfo.personal.description ||
-                "Description here"}
+              {profileData?.additionalInfo.personal.description || "Description here"}
             </p>
           </Card>
 
           {/* Action Buttons */}
-          <div className="w-full max-w-md space-y-4 h-52 scrollbar-hide">
+          <div className="w-full max-w-md space-y-4 h-auto md:h-52 scrollbar-hide">
             {profileData?.contactInfo.email && (
               <Button
                 variant="outline"
