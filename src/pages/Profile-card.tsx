@@ -397,10 +397,10 @@ export default function ProfilePage() {
 
           {/* Bio Card */}
           <Card
-            className={`w-full max-w-md
-    ${theme == "dark" ? "border-black bg-white/50" : "border-white bg-black/50"}
-    border-2 p-4 rounded-3xl bg-transparent
-    sm:max-w-sm sm:p-3`}
+            className={`w-[300px] max-w-[300px]
+            ${theme == "dark" ? "border-black bg-white/50" : "border-white bg-black/50"}
+            border-2 p-4 rounded-3xl bg-transparent
+            sm:max-w-sm sm:p-3`}
           >
             <h1
               className={`text-2xl font-bold text-center
@@ -446,7 +446,7 @@ export default function ProfilePage() {
           </Card>
 
           {/* Action Buttons */}
-          <div className="w-full max-w-md space-y-4 h-auto md:h-52 scrollbar-hide">
+          <div className=" w-full `w-[300px] max-w-[300px] space-y-4 h-auto md:h-52 scrollbar-hide">
             {profileData?.contactInfo.email && (
               <Button
                 variant="outline"
