@@ -108,6 +108,16 @@ export default function ProfilePage() {
   };
 
   const paymentMethods = [
+     {
+      name: "paypal",
+      icon: "fa-brands fa-paypal",
+      method: profileData?.paymentInfo.paypal,
+    },
+     {
+      name: "venmo",
+      icon: "fa-brands fa-vimeo",
+      method: profileData?.paymentInfo.venmo,
+    },
     {
       name: "gCash",
       icon: "fa-solid fa-money-bill",
@@ -119,14 +129,9 @@ export default function ProfilePage() {
       method: profileData?.paymentInfo.payoneer,
     },
     {
-      name: "paypal",
-      icon: "fa-brands fa-paypal",
-      method: profileData?.paymentInfo.paypal,
-    },
-    {
-      name: "venmo",
-      icon: "fa-brands fa-vimeo",
-      method: profileData?.paymentInfo.venmo,
+      name: "stripe",
+      icon: "fa-brands fa-stripe",
+      method: profileData?.paymentInfo.stripe,
     },
     {
       name: "wise",
@@ -137,12 +142,7 @@ export default function ProfilePage() {
       name: "cryptocurrency",
       icon: "fa-brands fa-btc",
       method: profileData?.paymentInfo.cryptocurrency,
-    },
-    {
-      name: "stripe",
-      icon: "fa-brands fa-stripe",
-      method: profileData?.paymentInfo.stripe,
-    },
+    }
   ];
 
   const ecommerceMethods = [
@@ -157,58 +157,59 @@ export default function ProfilePage() {
       method: profileData?.ecommerceInfo.ebay,
     },
     {
+      name: "Etsy Store",
+      icon: "fa-brands fa-etsy",
+      method: profileData?.ecommerceInfo.etsy,
+    },
+     {
       name: "Shopee Store",
       icon: "fa-solid fa-store",
       method: profileData?.ecommerceInfo.shopee,
     },
+     {
+      name: "Lazada Store",
+      icon: "fa-solid fa-store",
+      method: profileData?.ecommerceInfo.lazada,
+    },
+   
     {
       name: "Shopify Store",
       icon: "fa-brands fa-shopify",
       method: profileData?.ecommerceInfo.shopifyStore,
     },
-    {
-      name: "Lazada Store",
-      icon: "fa-solid fa-store",
-      method: profileData?.ecommerceInfo.lazada,
-    },
-    {
-      name: "Etsy Store",
-      icon: "fa-brands fa-etsy",
-      method: profileData?.ecommerceInfo.etsy,
-    },
   ];
 
   const additionalMethods = [
+     {
+      name: "Personal Website",
+      icon: "fa-solid fa-globe", // Icon for event
+      method: profileData?.additionalInfo.website_link,
+    },
+     {
+      name: "Custom Landing",
+      icon: "fa-solid fa-laptop-code", // Icon for custom landing page
+      method: profileData?.additionalInfo.customLanding,
+    },
+     {
+      name: "Blog",
+      icon: "fa-solid fa-pencil-alt", // Icon for blog
+      method: profileData?.additionalInfo.blog,
+    },
+     {
+      name: "Event",
+      icon: "fa-solid fa-calendar-alt", // Icon for event
+      method: profileData?.additionalInfo.event,
+    },
     {
       name: "File Sharing",
       icon: "fa-solid fa-cloud-upload-alt", // Icon for file sharing
       method: profileData?.additionalInfo.fileSharing,
     },
     {
-      name: "Blog",
-      icon: "fa-solid fa-pencil-alt", // Icon for blog
-      method: profileData?.additionalInfo.blog,
-    },
-    {
       name: "Resume",
       icon: "fa-solid fa-file-alt", // Icon for resume
       method: profileData?.additionalInfo.resume,
-    },
-    {
-      name: "Custom Landing",
-      icon: "fa-solid fa-laptop-code", // Icon for custom landing page
-      method: profileData?.additionalInfo.customLanding,
-    },
-    {
-      name: "Event",
-      icon: "fa-solid fa-calendar-alt", // Icon for event
-      method: profileData?.additionalInfo.event,
-    },
-    {
-      name: "Personal Website",
-      icon: "fa-solid fa-globe", // Icon for event
-      method: profileData?.additionalInfo.website_link,
-    },
+    }
   ];
   const socialMediaOrder: (keyof SocialMediaInfo)[] = [
     "facebook",
@@ -445,6 +446,74 @@ export default function ProfilePage() {
             </p>
           </Card>
 
+{additionalMethods.map(
+              ({ name, icon, method }) =>
+                method &&
+                method !== null &&
+                method.length > 0 && (
+                  <Button
+                    key={name}
+                    variant="outline"
+                    onClick={() => {
+                      const url = method;
+                      window.open(url, "_blank");
+                    }}
+                    style={{
+                      fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                        dummyData.additionalInfo.personal.font_size
+                        }px`,
+                      fontFamily:
+                        profileData?.additionalInfo.personal.font_family ||
+                        dummyData.additionalInfo.personal.font_family,
+                    }}
+                    className={`w-full h-14 ${theme === "dark"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                      : "text-white bg-black/50 border-white hover:bg-white/10 "
+                      } rounded-2xl flex justify-center items-center bg-transparent`}
+                  >
+                    <div className="w-8 h-8 text-2xl capitalize mr-2 flex justify-center items-center">
+                      <i
+                        className={`${icon} text-xl ${theme === "dark" ? "text-black" : "text-white"
+                          }`}
+                      />
+                    </div>
+                    <span className="mx-auto">{name}</span>
+                  </Button>
+                )
+            )}
+
+           {profileData?.contactInfo.phoneNumber && (
+              <Button
+                variant="outline"
+                style={{
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                    dummyData.additionalInfo.personal.font_size
+                    }px`,
+                  fontFamily:
+                    profileData?.additionalInfo.personal.font_family ||
+                    dummyData.additionalInfo.personal.font_family,
+                }}
+                onClick={() => {
+                  handleCopy();
+                }}
+                className={`w-full h-14 
+    ${theme === "dark"
+                    ? "text-black bg-white/50 border-black bg-transparent hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white bg-transparent hover:bg-white/10 "
+                  }
+    rounded-2xl border-2`}
+              >
+                <i
+                  className={`text-2xl fa-solid fa-phone ${theme == "dark"
+                    ? "text-black "
+                    : "text-white "
+                    }`}
+                />
+                <span className="mx-auto">
+                  {profileData?.contactInfo.phoneNumber}
+                </span>
+              </Button>
+            )}
           {/* Action Buttons */}
           <div className=" w-full `w-[320px] max-w-[320px] space-y-4 h-auto md:h-52 scrollbar-hide">
             {profileData?.contactInfo.email && (
@@ -521,7 +590,7 @@ export default function ProfilePage() {
               </Button>
             )}
 
-            {profileData?.contactInfo.phoneNumber && (
+{profileData?.contactInfo.telegram && (
               <Button
                 variant="outline"
                 style={{
@@ -533,26 +602,32 @@ export default function ProfilePage() {
                     dummyData.additionalInfo.personal.font_family,
                 }}
                 onClick={() => {
-                  handleCopy();
+                  window.open(
+                    `${profileData.contactInfo.telegram.startsWith(
+                      "https://t.me/"
+                    )
+                      ? profileData.contactInfo.telegram
+                      : "https://t.me/" + profileData.contactInfo.telegram
+                    }`,
+                    "_blank"
+                  );
                 }}
-                className={`w-full h-14 
-    ${theme === "dark"
-                    ? "text-black bg-white/50 border-black bg-transparent hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white bg-transparent hover:bg-white/10 "
-                  }
-    rounded-2xl border-2`}
+                className={`w-full h-14
+          ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white hover:bg-white/10 "
+                  } rounded-2xl bg-transparent`}
               >
                 <i
-                  className={`text-2xl fa-solid fa-phone ${theme == "dark"
+                  className={`text-2xl fa-brands fa-telegram ${theme === "dark"
                     ? "text-black "
                     : "text-white "
                     }`}
                 />
-                <span className="mx-auto">
-                  {profileData?.contactInfo.phoneNumber}
-                </span>
+                <span className="mx-auto">Telegram</span>
               </Button>
             )}
+           
 
             {profileData?.contactInfo.skype && (
               <Button
@@ -616,44 +691,7 @@ export default function ProfilePage() {
             )}
 
             {/* Telegram Button */}
-            {profileData?.contactInfo.telegram && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    `${profileData.contactInfo.telegram.startsWith(
-                      "https://t.me/"
-                    )
-                      ? profileData.contactInfo.telegram
-                      : "https://t.me/" + profileData.contactInfo.telegram
-                    }`,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-brands fa-telegram ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Telegram</span>
-              </Button>
-            )}
-
+            
             {/* Google Meet Button */}
             {profileData?.contactInfo.googleMeet && (
               <Button
@@ -794,42 +832,7 @@ export default function ProfilePage() {
                 )
             )}
 
-            {additionalMethods.map(
-              ({ name, icon, method }) =>
-                method &&
-                method !== null &&
-                method.length > 0 && (
-                  <Button
-                    key={name}
-                    variant="outline"
-                    onClick={() => {
-                      const url = method;
-                      window.open(url, "_blank");
-                    }}
-                    style={{
-                      fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                        dummyData.additionalInfo.personal.font_size
-                        }px`,
-                      fontFamily:
-                        profileData?.additionalInfo.personal.font_family ||
-                        dummyData.additionalInfo.personal.font_family,
-                    }}
-                    className={`w-full h-14 ${theme === "dark"
-                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                      : "text-white bg-black/50 border-white hover:bg-white/10 "
-                      } rounded-2xl flex justify-center items-center bg-transparent`}
-                  >
-                    <div className="w-8 h-8 text-2xl capitalize mr-2 flex justify-center items-center">
-                      <i
-                        className={`${icon} text-xl ${theme === "dark" ? "text-black" : "text-white"
-                          }`}
-                      />
-                    </div>
-                    <span className="mx-auto">{name}</span>
-                  </Button>
-                )
-            )}
-            <div className="text-center text-white/80 mt-8 space-y-2">
+                        <div className="text-center text-white/80 mt-8 space-y-2">
               <h2 className="font-semibold text-center flex justify-center items-center">
                 <svg
                   className={`w-8 h-8`}
