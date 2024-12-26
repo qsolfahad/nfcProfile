@@ -1140,17 +1140,18 @@ export default function ProfilePage() {
                       const url = `${method}`;
                       window.open(url, "_blank");
                     }}
-                    className={`w-full h-14 flex items-center justify-center relative${theme === "dark"
-                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                      : "text-white bg-black/50 border-white hover:bg-white/10 "
-                      } rounded-2xl flex justify-center items-center bg-transparent`}
+                    className={`w-full h-14 flex items-center justify-center relative
+                      ${theme === "dark"
+                        ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                        : "text-white bg-black/50 border-white hover:bg-white/10 "
+                      } rounded-2xl bg-transparent`}
                   >
-                    <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
-                      <i
-                        className={`${icon} text-2xl absolute left-4 ${theme === "dark" ? "text-black" : "text-white"
-                          }`}
-                      />
-                    </div>
+                    <i
+                      className={`text-2xl fa-regular ${icon} absolute left-4 ${theme === "dark"
+                        ? "text-black "
+                        : "text-white "
+                        }`}
+                    />
                     <span className="mx-auto">{name}</span>
                   </Button>
                 )
@@ -1176,17 +1177,18 @@ export default function ProfilePage() {
                       const url = `${method}`;
                       window.open(url, "_blank");
                     }}
-                    className={`w-full h-14 flex items-center justify-center relative${theme === "dark"
-                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                      : "text-white bg-black/50 border-white hover:bg-white/10 "
-                      } rounded-2xl flex justify-center items-center bg-transparent`}
+                    className={`w-full h-14 flex items-center justify-center relative
+                      ${theme === "dark"
+                        ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                        : "text-white bg-black/50 border-white hover:bg-white/10 "
+                      } rounded-2xl bg-transparent`}
                   >
-                    <div className="w-8 h-8 text-xl capitalize mr-2 flex justify-center items-center">
-                      <i
-                        className={`${icon} text-2xl absolute left-4 ${theme === "dark" ? "text-black" : "text-white"
-                          }`}
-                      />
-                    </div>
+                    <i
+                      className={`text-2xl fa-regular ${icon} absolute left-4 ${theme === "dark"
+                        ? "text-black "
+                        : "text-white "
+                        }`}
+                    />
                     <span className="mx-auto">{name}</span>
                   </Button>
                 )
