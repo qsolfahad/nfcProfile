@@ -109,37 +109,37 @@ export default function ProfilePage() {
 
   const paymentMethods = [
     {
-      name: "paypal",
+      name: "Paypal",
       icon: "fa-brands fa-paypal",
       method: profileData?.paymentInfo.paypal,
     },
     {
-      name: "venmo",
+      name: "Venmo",
       icon: "fa-brands fa-vimeo",
       method: profileData?.paymentInfo.venmo,
     },
     {
-      name: "gCash",
+      name: "GCash",
       icon: "fa-solid fa-money-bill",
       method: profileData?.paymentInfo.gCash,
     },
     {
-      name: "payoneer",
+      name: "Payoneer",
       icon: "fa-solid fa-credit-card",
       method: profileData?.paymentInfo.payoneer,
     },
     {
-      name: "stripe",
+      name: "Stripe",
       icon: "fa-brands fa-stripe",
       method: profileData?.paymentInfo.stripe,
     },
     {
-      name: "wise",
+      name: "Wise",
       icon: "fa-regular fa-credit-card",
       method: profileData?.paymentInfo.wise,
     },
     {
-      name: "cryptocurrency",
+      name: "Cryptocurrency",
       icon: "fa-brands fa-btc",
       method: profileData?.paymentInfo.cryptocurrency,
     }
@@ -152,7 +152,7 @@ export default function ProfilePage() {
       method: profileData?.ecommerceInfo.amazonStore,
     },
     {
-      name: "eBay Store",
+      name: "EBay Store",
       icon: "fa-brands fa-ebay",
       method: profileData?.ecommerceInfo.ebay,
     },
@@ -181,14 +181,19 @@ export default function ProfilePage() {
 
   const additionalMethods = [
     {
-      name: "Personal Website",
+      name: "Website",
       icon: "fa-solid fa-globe", // Icon for event
       method: profileData?.additionalInfo.website_link,
     },
     {
-      name: "Custom Landing",
+      name: "Home",
       icon: "fa-solid fa-laptop-code", // Icon for custom landing page
       method: profileData?.additionalInfo.customLanding,
+    },
+    {
+      name: "Resume",
+      icon: "fa-solid fa-file-alt", // Icon for resume
+      method: profileData?.additionalInfo.resume,
     },
     {
       name: "Blog",
@@ -204,12 +209,8 @@ export default function ProfilePage() {
       name: "File Sharing",
       icon: "fa-solid fa-cloud-upload-alt", // Icon for file sharing
       method: profileData?.additionalInfo.fileSharing,
-    },
-    {
-      name: "Resume",
-      icon: "fa-solid fa-file-alt", // Icon for resume
-      method: profileData?.additionalInfo.resume,
     }
+
   ];
   const socialMediaOrder: (keyof SocialMediaInfo)[] = [
     "facebook",
@@ -333,8 +334,7 @@ export default function ProfilePage() {
         <div className="w-fit  px-4 py-8 flex flex-col items-center justify-center space-y-6">
           {/* Profile Image */}
           <Avatar
-            className={`w-56 h-56 border-4 ${theme == "dark" ? "border-black" : "border-white"
-              }`}
+            className={`w-56 h-56 border-4 ${theme == "dark" ? "border-black" : "border-white"}`}
           >
             <AvatarImage
               src={
@@ -343,9 +343,11 @@ export default function ProfilePage() {
               }
               alt="Profile Picture"
               onClick={handleImageClick} // Open image in modal when clicked
+              className="w-full h-full object-cover rounded-full" // Ensure image doesn't stretch
             />
             <AvatarFallback>PF</AvatarFallback>
           </Avatar>
+
 
           {/* Social Media Icons */}
 
@@ -485,123 +487,471 @@ export default function ProfilePage() {
                 </Button>
               )
           )}
+          {/* Calendar Button */}
+          {profileData?.socialMediaInfo.github && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.github as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-github absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Github</span>
+            </Button>
+          )}
 
+          {profileData?.socialMediaInfo.behance && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.behance as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-behance absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Behance</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.dribble && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.dribble as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-dribbble absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Dribble</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.medium && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.medium as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-medium absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Medium Blog</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.substack && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.substack as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-stack-overflow absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Substack</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.fiver && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.fiver as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fa-solid fa-link absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Fiverr</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.upwork && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.upwork as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-upwork absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Upwork</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.freelancer && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.freelancer as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fas fa-user-tie absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Freelance</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.spotify && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.spotify as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-spotify absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Spotify</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.soundCloud && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.soundCloud as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-soundcloud absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">SoundCloud</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.appleMusic && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.appleMusic as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-apple absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Apple Music</span>
+            </Button>
+          )}
+          {profileData?.socialMediaInfo.amazon && (
+            <Button
+              variant="outline"
+              style={{
+                fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                  dummyData.additionalInfo.personal.font_size
+                  }px`,
+                fontFamily:
+                  profileData?.additionalInfo.personal.font_family ||
+                  dummyData.additionalInfo.personal.font_family,
+              }}
+              onClick={() => {
+                window.open(
+                  profileData?.socialMediaInfo.amazon as string,
+                  "_blank"
+                );
+              }}
+              className={`w-full h-14 flex items-center justify-center relative
+          ${theme === "dark"
+                  ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                  : "text-white bg-black/50 border-white hover:bg-white/10 "
+                } rounded-2xl bg-transparent`}
+            >
+              <i
+                className={`text-2xl fa-regular fab fa-amazon absolute left-4 ${theme === "dark"
+                  ? "text-black "
+                  : "text-white "
+                  }`}
+              />
+              <span className="mx-auto">Amazon Music</span>
+            </Button>
+          )}
+          {paymentMethods.map(
+            ({ name, icon, method }) =>
+              method &&
+              method !== null &&
+              method.length > 0 && (
+                <Button
+                  key={name}
+                  variant="outline"
+                  style={{
+                    fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                      dummyData.additionalInfo.personal.font_size
+                      }px`,
+                    fontFamily:
+                      profileData?.additionalInfo.personal.font_family ||
+                      dummyData.additionalInfo.personal.font_family,
+                  }}
+                  onClick={() => {
+                    const url = `${method}`;
+                    window.open(url, "_blank");
+                  }}
+                  className={`w-full h-14 flex items-center justify-center relative
+                      ${theme === "dark"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                      : "text-white bg-black/50 border-white hover:bg-white/10 "
+                    } rounded-2xl bg-transparent`}
+                >
+                  <i
+                    className={`text-2xl fa-regular ${icon} absolute left-4 ${theme === "dark"
+                      ? "text-black "
+                      : "text-white "
+                      }`}
+                  />
+                  <span className="mx-auto">{name}</span>
+                </Button>
+              )
+          )}
+
+          {ecommerceMethods.map(
+            ({ name, icon, method }) =>
+              method &&
+              method !== null &&
+              method.length > 0 && (
+                <Button
+                  key={name}
+                  variant="outline"
+                  style={{
+                    fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                      dummyData.additionalInfo.personal.font_size
+                      }px`,
+                    fontFamily:
+                      profileData?.additionalInfo.personal.font_family ||
+                      dummyData.additionalInfo.personal.font_family,
+                  }}
+                  onClick={() => {
+                    const url = `${method}`;
+                    window.open(url, "_blank");
+                  }}
+                  className={`w-full h-14 flex items-center justify-center relative
+                      ${theme === "dark"
+                      ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                      : "text-white bg-black/50 border-white hover:bg-white/10 "
+                    } rounded-2xl bg-transparent`}
+                >
+                  <i
+                    className={`text-2xl fa-regular ${icon} absolute left-4 ${theme === "dark"
+                      ? "text-black "
+                      : "text-white "
+                      }`}
+                  />
+                  <span className="mx-auto">{name}</span>
+                </Button>
+              )
+          )}
 
           {/* Action Buttons */}
           <div className="w-full w-[320px] max-w-[320px] space-y-4 h-auto md:h-52 scrollbar-hide">
-            {profileData?.contactInfo.email && (
-              <Button
-                variant="outline"
-                onClick={() =>
-                  window.open(
-                    `mailto:${profileData?.contactInfo.email}`,
-                    "_blank"
-                  )
-                }
-                className={`w-full h-14 flex items-center justify-center relative
-        ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10"
-                    : "text-white bg-black/50 border-white hover:bg-white/10"
-                  } rounded-2xl bg-transparent`}
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-              >
-                {/* Icon on the left */}
-                <i
-                  className={`fa-solid fa-envelope text-2xl absolute left-4
-        ${theme === "dark" ? "text-black" : "text-white"}
-        `}
-                ></i>
-                {/* Centered text */}
-                <span>
-                  {profileData?.contactInfo.email}
-                </span>
-              </Button>
-            )}
 
 
 
-
-
-
-            {profileData?.contactInfo.whatsapp && (
-              <Button
-                variant="outline"
-                onClick={() => {
-                  window.open(
-                    `https://wa.me/${profileData?.contactInfo.phoneNumber}`,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-                  ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-              >
-                <i
-                  className={`text-2xl fa-brands fa-whatsapp absolute left-4  ${theme == "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">
-                  {profileData?.contactInfo.whatsapp}
-                </span>
-              </Button>
-            )}
-
-            {profileData?.contactInfo.telegram && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    `${profileData.contactInfo.telegram.startsWith(
-                      "https://t.me/"
-                    )
-                      ? profileData.contactInfo.telegram
-                      : "https://t.me/" + profileData.contactInfo.telegram
-                    }`,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-brands fa-telegram absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Telegram</span>
-              </Button>
-            )}
 
 
             {profileData?.contactInfo.skype && (
@@ -616,7 +966,8 @@ export default function ProfilePage() {
                     dummyData.additionalInfo.personal.font_family,
                 }}
                 onClick={() => {
-                  window.open(`skype:live:${profileData?.contactInfo.skype}?call`, "_blank");
+                  window.open(`skype:${profileData?.contactInfo.skype}?chat`, "_blank");
+
                 }}
                 className={`w-full h-14 flex items-center justify-center relative
           ${theme === "dark"
@@ -731,11 +1082,10 @@ export default function ProfilePage() {
                     : "text-white "
                     }`}
                 />
-                <span className="mx-auto">Calendar</span>
+                <span className="mx-auto">Calendly</span>
               </Button>
             )}
-            {/* Calendar Button */}
-            {profileData?.socialMediaInfo.github && (
+            {profileData?.contactInfo.telegram && (
               <Button
                 variant="outline"
                 style={{
@@ -748,7 +1098,12 @@ export default function ProfilePage() {
                 }}
                 onClick={() => {
                   window.open(
-                    profileData?.socialMediaInfo.github as string,
+                    `${profileData.contactInfo.telegram.startsWith(
+                      "https://t.me/"
+                    )
+                      ? profileData.contactInfo.telegram
+                      : "https://t.me/" + profileData.contactInfo.telegram
+                    }`,
                     "_blank"
                   );
                 }}
@@ -759,441 +1114,90 @@ export default function ProfilePage() {
                   } rounded-2xl bg-transparent`}
               >
                 <i
-                  className={`text-2xl fa-regular fab fa-github absolute left-4 ${theme === "dark"
+                  className={`text-2xl fa-brands fa-telegram absolute left-4 ${theme === "dark"
                     ? "text-black "
                     : "text-white "
                     }`}
                 />
-                <span className="mx-auto">Github</span>
+                <span className="mx-auto">Telegram</span>
+              </Button>
+            )}
+            {profileData?.contactInfo.email && (
+              <Button
+                variant="outline"
+                onClick={() =>
+                  window.open(
+                    `mailto:${profileData?.contactInfo.email}`,
+                    "_blank"
+                  )
+                }
+                className={`w-full h-14 flex items-center justify-center relative
+        ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10"
+                    : "text-white bg-black/50 border-white hover:bg-white/10"
+                  } rounded-2xl bg-transparent`}
+                style={{
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                    dummyData.additionalInfo.personal.font_size
+                    }px`,
+                  fontFamily:
+                    profileData?.additionalInfo.personal.font_family ||
+                    dummyData.additionalInfo.personal.font_family,
+                }}
+              >
+                {/* Icon on the left */}
+                <i
+                  className={`fa-solid fa-envelope text-2xl absolute left-4
+        ${theme === "dark" ? "text-black" : "text-white"}
+        `}
+                ></i>
+                {/* Centered text */}
+                <span>
+                  {profileData?.contactInfo.email}
+                </span>
               </Button>
             )}
 
-            {profileData?.socialMediaInfo.behance && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.behance as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-behance absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Behance</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.dribble && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.dribble as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-dribbble absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Dribble</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.medium && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.medium as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-medium absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Medium Blog</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.substack && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.substack as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-stack-overflow absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Substack</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.fiver && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.fiver as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fa-solid fa-link absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Fiverr</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.upwork && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.upwork as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-upwork absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Upwork</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.freelancer && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.freelancer as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fas fa-user-tie absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Freelance</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.spotify && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.spotify as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-spotify absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Spotify</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.soundCloud && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.soundCloud as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-soundcloud absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">SoundCloud</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.appleMusic && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.appleMusic as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-apple absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Apple Music</span>
-              </Button>
-            )}
-            {profileData?.socialMediaInfo.amazon && (
-              <Button
-                variant="outline"
-                style={{
-                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                    dummyData.additionalInfo.personal.font_size
-                    }px`,
-                  fontFamily:
-                    profileData?.additionalInfo.personal.font_family ||
-                    dummyData.additionalInfo.personal.font_family,
-                }}
-                onClick={() => {
-                  window.open(
-                    profileData?.socialMediaInfo.amazon as string,
-                    "_blank"
-                  );
-                }}
-                className={`w-full h-14 flex items-center justify-center relative
-          ${theme === "dark"
-                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                    : "text-white bg-black/50 border-white hover:bg-white/10 "
-                  } rounded-2xl bg-transparent`}
-              >
-                <i
-                  className={`text-2xl fa-regular fab fa-amazon absolute left-4 ${theme === "dark"
-                    ? "text-black "
-                    : "text-white "
-                    }`}
-                />
-                <span className="mx-auto">Amazon Music</span>
-              </Button>
-            )}
-            {paymentMethods.map(
-              ({ name, icon, method }) =>
-                method &&
-                method !== null &&
-                method.length > 0 && (
-                  <Button
-                    key={name}
-                    variant="outline"
-                    style={{
-                      fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                        dummyData.additionalInfo.personal.font_size
-                        }px`,
-                      fontFamily:
-                        profileData?.additionalInfo.personal.font_family ||
-                        dummyData.additionalInfo.personal.font_family,
-                    }}
-                    onClick={() => {
-                      const url = `${method}`;
-                      window.open(url, "_blank");
-                    }}
-                    className={`w-full h-14 flex items-center justify-center relative
-                      ${theme === "dark"
-                        ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                        : "text-white bg-black/50 border-white hover:bg-white/10 "
-                      } rounded-2xl bg-transparent`}
-                  >
-                    <i
-                      className={`text-2xl fa-regular ${icon} absolute left-4 ${theme === "dark"
-                        ? "text-black "
-                        : "text-white "
-                        }`}
-                    />
-                    <span className="mx-auto">{name}</span>
-                  </Button>
-                )
-            )}
 
-            {ecommerceMethods.map(
-              ({ name, icon, method }) =>
-                method &&
-                method !== null &&
-                method.length > 0 && (
-                  <Button
-                    key={name}
-                    variant="outline"
-                    style={{
-                      fontSize: `${profileData?.additionalInfo.personal.font_size ||
-                        dummyData.additionalInfo.personal.font_size
-                        }px`,
-                      fontFamily:
-                        profileData?.additionalInfo.personal.font_family ||
-                        dummyData.additionalInfo.personal.font_family,
-                    }}
-                    onClick={() => {
-                      const url = `${method}`;
-                      window.open(url, "_blank");
-                    }}
-                    className={`w-full h-14 flex items-center justify-center relative
-                      ${theme === "dark"
-                        ? "text-black bg-white/50 border-black hover:bg-black/10 "
-                        : "text-white bg-black/50 border-white hover:bg-white/10 "
-                      } rounded-2xl bg-transparent`}
-                  >
-                    <i
-                      className={`text-2xl fa-regular ${icon} absolute left-4 ${theme === "dark"
-                        ? "text-black "
-                        : "text-white "
-                        }`}
-                    />
-                    <span className="mx-auto">{name}</span>
-                  </Button>
-                )
+
+
+
+
+            {profileData?.contactInfo.whatsapp && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  window.open(
+                    `https://wa.me/${profileData?.contactInfo.whatsapp}`,
+                    "_blank"
+                  );
+                }}
+                className={`w-full h-14 flex items-center justify-center relative
+                  ${theme === "dark"
+                    ? "text-black bg-white/50 border-black hover:bg-black/10 "
+                    : "text-white bg-black/50 border-white hover:bg-white/10 "
+                  } rounded-2xl bg-transparent`}
+                style={{
+                  fontSize: `${profileData?.additionalInfo.personal.font_size ||
+                    dummyData.additionalInfo.personal.font_size
+                    }px`,
+                  fontFamily:
+                    profileData?.additionalInfo.personal.font_family ||
+                    dummyData.additionalInfo.personal.font_family,
+                }}
+              >
+                <i
+                  className={`text-2xl fa-brands fa-whatsapp absolute left-4  ${theme == "dark"
+                    ? "text-black "
+                    : "text-white "
+                    }`}
+                />
+                <span className="mx-auto">
+                  {profileData?.contactInfo.whatsapp}
+                </span>
+              </Button>
             )}
-            {profileData?.contactInfo.googleMeet && (
+            {profileData?.contactInfo.maplink && (
               <Button
                 variant="outline"
                 onClick={() => {
