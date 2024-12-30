@@ -1233,7 +1233,7 @@ export default function ProfilePage() {
                 </svg>
                 {/* Address text */}
                 <span>
-                  {profileData?.contactInfo.physicalAddress || "Address not available"}
+                  {"Location"}
                 </span>
               </Button>
             )}
